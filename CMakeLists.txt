@@ -61,6 +61,8 @@ list(APPEND GAME_SOURCE
      Classes/MainMenu/LoadLayer.cpp
      Classes/MainMenu/SysMenuScene.cpp
      Classes/GameFrame/GameScene.cpp
+     Classes/Boxes/Box.cpp
+     Classes/Boxes/Player.cpp
      )
 list(APPEND GAME_HEADER
      Classes/AppDelegate.h
@@ -68,6 +70,8 @@ list(APPEND GAME_HEADER
      Classes/MainMenu/LoadLayer.h
      Classes/MainMenu/SysMenuScene.h
      Classes/GameFrame/GameScene.h
+     Classes/Boxes/Box.cpp
+     Classes/Boxes/Player.cpp
      )
 
 if(ANDROID)
