@@ -70,8 +70,8 @@ list(APPEND GAME_HEADER
      Classes/MainMenu/LoadLayer.h
      Classes/MainMenu/SysMenuScene.h
      Classes/GameFrame/GameScene.h
-     Classes/Boxes/Box.cpp
-     Classes/Boxes/Player.cpp
+     Classes/Boxes/Box.h
+     Classes/Boxes/Player.h
      )
 
 if(ANDROID)
