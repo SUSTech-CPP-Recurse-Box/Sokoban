@@ -1,5 +1,5 @@
 #include "SysMenuScene.h"
-
+#include "../GameFrame/GameScene.h"
 #include "LevelSelectLayer.h"
 
 
@@ -56,7 +56,7 @@ bool LevelSelectLayer::init()
         levels.pushBack(levelItem);
     }
     Menu* levelsLayerMenu = Menu::createWithArray(levels);
-    levelsLayerMenu->alignItemsInColumns(5, 5);
+    levelsLayerMenu->alignItemsInColumns(3,3,4);
     levelsLayerMenu->setPosition(Vec2(winSize.width / 2, winSize.height / 2));
     addChild(levelsLayerMenu, 1);
 
@@ -70,8 +70,6 @@ bool LevelSelectLayer::init()
     Menu* backMenu = Menu::create(backMain, nullptr);
     backMenu->setPosition(Vec2(winSize.width / 2, 48));
     addChild(backMenu, 1);
-
-
     return true;
 }
 
@@ -79,6 +77,7 @@ bool LevelSelectLayer::init()
 void LevelSelectLayer::onLevelSelect(Ref* pSender, int lid)
 {
     CCLOG("Select %d", lid);
-    Scene* scene = SysMenuScene::create();
+    Scene* scene = GameScene::scene();
+    Director::getInstance()->replaceScene(TransitionFade::create(1.2f, scene));
 }
 

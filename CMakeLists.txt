@@ -60,12 +60,14 @@ list(APPEND GAME_SOURCE
      Classes/MainMenu/LevelSelectLayer.cpp
      Classes/MainMenu/LoadLayer.cpp
      Classes/MainMenu/SysMenuScene.cpp
+     Classes/GameFrame/GameScene.cpp
      )
 list(APPEND GAME_HEADER
      Classes/AppDelegate.h
      Classes/MainMenu/LevelSelectLayer.h
      Classes/MainMenu/LoadLayer.h
      Classes/MainMenu/SysMenuScene.h
+     Classes/GameFrame/GameScene.h
      )
 
 if(ANDROID)
