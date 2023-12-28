@@ -1,4 +1,5 @@
 #include "GameScene.h"
+#include "../Boxes/Box.h"
 #include "../MainMenu/SysMenuScene.h"
 
 
@@ -16,27 +17,29 @@ bool GameScene::init()
     {
         return false;
     }
-
-
-
     Size winSize = Director::getInstance()->getWinSize();
 
     auto backGround = Sprite::create("MainMenu/MainBG.png");
     backGround->setPosition(Vec2(winSize.width / 2, winSize.height / 2));
     addChild(backGround, 0);
-    auto greenSprite = Sprite::create("MainMenu/MainBG.png");
+    auto player = Box::create();
+    player->set_to_player(player);
+    player->setPosition(Vec2(winSize.width / 2, winSize.height / 2));
+    //player->setContentSize(Size(100, 100));
+    this->addChild(player);
+    //auto greenSprite = Sprite::create("MainMenu/MainBG.png");
 
     // 设置Sprite的颜色为绿色，可以使用Color3B或Color4B
-    greenSprite->setColor(Color3B::GREEN);
+   // greenSprite->setColor(Color3B::GREEN);
 
     // 设置Sprite的位置
-    greenSprite->setPosition(Vec2(winSize.width / 2, winSize.height / 2));; // 根据你的需求设置位置
+   // greenSprite->setPosition(Vec2(winSize.width / 2, winSize.height / 2));; // 根据你的需求设置位置
 
     // 设置Sprite的大小为10x10
-    greenSprite->setContentSize(Size(10, 10));
+   //greenSprite->setContentSize(Size(10, 10));
 
     // 将Sprite添加到场景中
-    this->addChild(greenSprite);
+   // this->addChild(greenSprite);
     _listener = EventListenerKeyboard::create();
     _listener->onKeyPressed=CC_CALLBACK_2(GameScene::onKeyPressed, this);
     _listener->onKeyReleased = CC_CALLBACK_2(GameScene::onKeyReleased, this);
@@ -75,14 +78,22 @@ void GameScene::onKeyReleased(EventKeyboard::KeyCode keyCode, Event* event)
 {
     log("Key with keycode %d released", keyCode);
     if (keyCode == EventKeyboard::KeyCode::KEY_W) {
+        auto moveBy = MoveBy::create(2, Vec2(0, Box::player->size));
+        Box::player->runAction(moveBy);
         log("go up");
     }else if (keyCode == EventKeyboard::KeyCode::KEY_S) {
+        auto moveBy = MoveBy::create(2, Vec2(0, -(Box::player->size)));
+        Box::player->runAction(moveBy);
         log("go down");
     }
     else if (keyCode == EventKeyboard::KeyCode::KEY_A) {
+        auto moveBy = MoveBy::create(2, Vec2(-(Box::player->size), 0));
+        Box::player->runAction(moveBy);
         log("go left");
     }
     else if (keyCode == EventKeyboard::KeyCode::KEY_D) {
+        auto moveBy = MoveBy::create(2, Vec2(Box::player->size, 0));
+        Box::player->runAction(moveBy);
         log("go right");
     }
 }

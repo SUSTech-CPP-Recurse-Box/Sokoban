@@ -63,6 +63,7 @@ list(APPEND GAME_SOURCE
      Classes/GameFrame/GameScene.cpp
      Classes/Boxes/Box.cpp
      Classes/Boxes/Player.cpp
+     Classes/Boxes/BoxCollection.cpp
      )
 list(APPEND GAME_HEADER
      Classes/AppDelegate.h
@@ -72,6 +73,7 @@ list(APPEND GAME_HEADER
      Classes/GameFrame/GameScene.h
      Classes/Boxes/Box.h
      Classes/Boxes/Player.h
+     Classes/Boxes/BoxCollection.h
      )
 
 if(ANDROID)
