@@ -1,6 +1,8 @@
 #include "GameScene.h"
 #include "../Boxes/Box.h"
+#include "../Boxes/BoxCollection.h"
 #include "../MainMenu/SysMenuScene.h"
+#define DEFAULT_SPACE_SIZE 10
 
 
 Scene* GameScene::scene()
@@ -22,11 +24,15 @@ bool GameScene::init()
     auto backGround = Sprite::create("MainMenu/MainBG.png");
     backGround->setPosition(Vec2(winSize.width / 2, winSize.height / 2));
     addChild(backGround, 0);
+
+    auto defaultBox = BoxCollection::create(10, 10, this,winSize.height/2);
+    defaultBox->setPosition(Vec2(winSize.width / 2, winSize.height / 2));
+    this->addChild(defaultBox);
     auto player = Box::create();
     player->set_to_player(player);
     player->setPosition(Vec2(winSize.width / 2, winSize.height / 2));
     //player->setContentSize(Size(100, 100));
-    this->addChild(player);
+    defaultBox->addBox(player,0,6);
     //auto greenSprite = Sprite::create("MainMenu/MainBG.png");
 
     // 设置Sprite的颜色为绿色，可以使用Color3B或Color4B
@@ -78,22 +84,18 @@ void GameScene::onKeyReleased(EventKeyboard::KeyCode keyCode, Event* event)
 {
     log("Key with keycode %d released", keyCode);
     if (keyCode == EventKeyboard::KeyCode::KEY_W) {
-        auto moveBy = MoveBy::create(2, Vec2(0, Box::player->size));
-        Box::player->runAction(moveBy);
+        Box::player->father->processObjects(Box::player, 0, 1);
         log("go up");
     }else if (keyCode == EventKeyboard::KeyCode::KEY_S) {
-        auto moveBy = MoveBy::create(2, Vec2(0, -(Box::player->size)));
-        Box::player->runAction(moveBy);
+        Box::player->father->processObjects(Box::player, 0, -1);
         log("go down");
     }
     else if (keyCode == EventKeyboard::KeyCode::KEY_A) {
-        auto moveBy = MoveBy::create(2, Vec2(-(Box::player->size), 0));
-        Box::player->runAction(moveBy);
+        Box::player->father->processObjects(Box::player, -1,0);
         log("go left");
     }
     else if (keyCode == EventKeyboard::KeyCode::KEY_D) {
-        auto moveBy = MoveBy::create(2, Vec2(Box::player->size, 0));
-        Box::player->runAction(moveBy);
+        Box::player->father->processObjects(Box::player, 1, 0);
         log("go right");
     }
 }

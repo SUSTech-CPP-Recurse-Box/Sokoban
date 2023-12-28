@@ -1,6 +1,7 @@
 #include "Box.h"
 Box* Box::player = nullptr;
 Box::Box() :color(Color3B::GREEN), visible(true), true_body(true),size(100.0f) {
+	this->setColor(color);
 	this->initWithFile("MainMenu/boxes/default_box.png");
 	this->setContentSize(Size(size, size));
 };
