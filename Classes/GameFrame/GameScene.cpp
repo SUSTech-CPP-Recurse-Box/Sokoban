@@ -34,22 +34,9 @@ bool GameScene::init()
     this->addChild(defaultBox);
     auto player = Box::create();
     player->set_to_player(player);
-    player->setPosition(Vec2(winSize.width / 2, winSize.height / 2));
-    //player->setContentSize(Size(100, 100));
     defaultBox->addBox(player,0,6);
-    //auto greenSprite = Sprite::create("MainMenu/MainBG.png");
-
-    // 设置Sprite的颜色为绿色，可以使用Color3B或Color4B
-   // greenSprite->setColor(Color3B::GREEN);
-
-    // 设置Sprite的位置
-   // greenSprite->setPosition(Vec2(winSize.width / 2, winSize.height / 2));; // 根据你的需求设置位置
-
-    // 设置Sprite的大小为10x10
-   //greenSprite->setContentSize(Size(10, 10));
-
-    // 将Sprite添加到场景中
-   // this->addChild(greenSprite);
+    auto smallBox = BoxCollection::create(5, 5, this, winSize.height / 2);
+    defaultBox->addCollection(smallBox, 0, 7);
     _listener = EventListenerKeyboard::create();
     _listener->onKeyPressed=CC_CALLBACK_2(GameScene::onKeyPressed, this);
     _listener->onKeyReleased = CC_CALLBACK_2(GameScene::onKeyReleased, this);

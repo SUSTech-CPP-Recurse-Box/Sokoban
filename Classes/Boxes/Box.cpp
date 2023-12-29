@@ -9,9 +9,9 @@ bool Box::init() {
 	return true;
 }
 
-void Box::update(int x, int y) {
+void Box::update(int posX, int posY) {
 	Point position = this->getPosition();
-	this->setPosition(Point(position.x +x*size, position.y +y*size));
+	this->setPosition(Point(position.x +posX*size, position.y +posY*size));
 }
 
 bool Box::set_to_player(Box* box) {

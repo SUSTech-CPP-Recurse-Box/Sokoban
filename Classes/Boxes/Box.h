@@ -8,8 +8,8 @@ USING_NS_CC;
 
 class Box : public Sprite {
 public:
-    int x;
-    int y;
+    int posX;
+    int posY;
     Color3B color;
     BoxCollection* father;
     float size;
@@ -20,7 +20,7 @@ public:
     Box();
     virtual bool init();
     void setSize(float size);
-    virtual void update(int x,int y);
+    virtual void update(int posX,int posY);
     virtual bool set_to_player(Box* box);
     CREATE_FUNC(Box);
 
