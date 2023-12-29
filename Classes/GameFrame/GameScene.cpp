@@ -32,11 +32,14 @@ bool GameScene::init()
     auto defaultBox = BoxCollection::create(10, 10, this,winSize.height/2);
     defaultBox->setPosition(Vec2(winSize.width / 2, winSize.height / 2));
     this->addChild(defaultBox);
+    log("default panel boxSize: %f", defaultBox->boxSize);
     auto player = Box::create();
     player->set_to_player(player);
     defaultBox->addBox(player,0,6,true,true);
+    defaultBox->addBox(player, 0, 5, false, true);
     auto smallBox = BoxCollection::create(5, 5, this, winSize.height / 2);
-    defaultBox->addCollection(smallBox, 0, 7);
+    defaultBox->addCollection(smallBox, 0, 7,true);
+    log("smallBox panel boxSize: %f", smallBox->boxSize);
     _listener = EventListenerKeyboard::create();
     _listener->onKeyPressed=CC_CALLBACK_2(GameScene::onKeyPressed, this);
     _listener->onKeyReleased = CC_CALLBACK_2(GameScene::onKeyReleased, this);

@@ -10,8 +10,22 @@ bool BoxCollection::init()
 
     return true;
 }
-//todo: 实现多层渲染（理论上把下一层BoxCollection直接addChild即可）
-//todo: 实现箱子的大小调整
+BoxCollection::BoxCollection(Color3B color, long x, long y, GameScene* gameScene,
+    float size, long posX, long posY, Node* boxes[MAX_SIZE][MAX_SIZE],
+    BoxCollection* father, BoxCollection* actual_box, bool real) 
+    :x(x), y(y), gameScene(gameScene), size(size), color(color), father(father)
+    , posX(posX), posY(posY) ,actual_box(actual_box){
+    log("--------");
+    log("size:%f",size);
+    //todo: copy the box in boxes and state
+    if (real) {
+        actual_box = this;
+    }
+    this->boxSize = x > y ? (size / (x + 1)) : size / (y + 1);
+    log("boxSize:%f", boxSize);
+    log("--------");
+    addPanel();
+}
 //todo: (尝试)实现对整个地图的放大和缩小
 void BoxCollection::addBox(Sprite* object, long x, long y,bool true_body,bool player)
 {
@@ -19,27 +33,25 @@ void BoxCollection::addBox(Sprite* object, long x, long y,bool true_body,bool pl
     boxes[x][y] = (dynamic_cast<Box*>(object)->copy(x, y, boxSize, this,true_body,player));
     boxes[x][y]->setPosition(Vec2((2 * x - this->x + 1) * boxSize / 2, (this->y - 2 * y - 1) * boxSize / 2));
     // 将物体作为当前节点的子节点
-    boxes[x][y]->setContentSize(Size(boxSize, boxSize));
     this->addChild(boxes[x][y], 1);
 }
-void BoxCollection::addCollection(BoxCollection* object, long x, long y)
+BoxCollection* BoxCollection::copy(float size, long posX, long posY, BoxCollection* father,bool real) {
+    return BoxCollection::create(color, x, y, gameScene, size, posX, posY, boxes, father, actual_box, real);
+}
+void BoxCollection::addCollection(BoxCollection* object, long x, long y, bool real)
 {
     // 将物体添加到集合中
-    boxes[x][y] = object;
-    object->posX = x;
-    object->posY = y;
-    object->father = this;
-    object->setContentSize(Size(boxSize, boxSize));
-    object->setPosition(Vec2((2 * x - this->x + 1) * boxSize / 2, (this->y - 2 * y - 1) * boxSize / 2));
+    boxes[x][y] = object->copy(boxSize,x,y,this,real);
+    boxes[x][y]->setPosition(Vec2((2 * x - this->x + 1) * boxSize / 2, (this->y - 2 * y - 1) * boxSize / 2));
     // 将物体作为当前节点的子节点
-    this->addChild(object, 1);
+    this->addChild(boxes[x][y], 1);
 }
 
 void BoxCollection::addBox(long x, long y) {
     boxes[x][y] = Box::create();
     this->addChild(boxes[x][y]);
 }
-//todo: 在这里加逻辑判断是否可动，物体现在传入的是Sprite，需要改成node（Box继承自Sprite继承自node）
+//（Box继承自Sprite继承自node）
 //todo: 现在这里没有任何规则
 //todo: 需要写一个更优雅的移动作为一个函数,需要处理箱子移动过程，箱子移动之后坐标的变换
 //todo: 需要把箱子位置计算提出一个函数
@@ -56,12 +68,11 @@ bool BoxCollection::processObjects(cocos2d::Node* startObject, long dirX, long d
 }
 void BoxCollection::addPanel() {
 
-    Color3B c = MyColor::RandomLight();
-    color = c;
+    
     for (long i = 0; i < x; i++) {
         for (long j = 0; j < y; j++) {
             panels[i][j] = Sprite::create("MainMenu/boxes/panel.png");
-            panels[i][j]->setColor(c);
+            panels[i][j]->setColor(color);
             panels[i][j]->setContentSize(Size(boxSize, boxSize));
             panels[i][j]->setPosition(Vec2((2 * i - this->x + 1) * boxSize / 2, (this->y - 2 * j - 1) * boxSize / 2));
             //log("i=%f;j=%f;posX=%f;posY=%f", i, j, (2 * i - this->x + 1) * boxSize / 2, (this->y - 2 * j - 1) * boxSize / 2);

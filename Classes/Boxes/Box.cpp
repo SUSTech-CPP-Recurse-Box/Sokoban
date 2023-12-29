@@ -20,6 +20,7 @@ Box::Box(Color3B color, Box* actual_box, long posX,
 	this->initWithFile("MainMenu/boxes/default_box.png");
 	this->setContentSize(Size(size, size));
 };
+//todo:change the false box of it lighter
 Box* Box::copy(long posX, long posY, float size, BoxCollection* father,bool true_body,bool player) {
 	Box* box = Box::create(color, actual_box, posX, posY, size, father, true_body, player);
 	if (true_body)
