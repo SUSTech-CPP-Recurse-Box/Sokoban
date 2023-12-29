@@ -12,6 +12,10 @@ Scene* GameScene::scene()
     scene->addChild(GameScene);
     return scene;
 }
+//todo:这里增加传入参数用来分辨是哪个level
+//todo:读入关卡配置文件
+//todo:按照关卡配置文件生成地图
+//todo:在地图中放置的箱子应为原始箱子的复制体（用于实现多重嵌套，分身等功能）
 
 bool GameScene::init()
 {
@@ -79,7 +83,7 @@ void GameScene::onKeyPressed(EventKeyboard::KeyCode keyCode, Event* event)
 {
     log("Key with keycode %d pressed", keyCode);
 }
-
+//todo: 移动函数入口在这里
 void GameScene::onKeyReleased(EventKeyboard::KeyCode keyCode, Event* event)
 {
     log("Key with keycode %d released", keyCode);

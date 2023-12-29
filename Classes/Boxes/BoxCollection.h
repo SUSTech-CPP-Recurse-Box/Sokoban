@@ -23,6 +23,7 @@ public://todo:add position
         this->gameScene = gameScene;
         this->size = size;
         this->boxSize = x > y ? (size / x) : size / y;
+        //todo: 这里的背景板不知道会不会出问题
         for (int i = 0; i < x; i++) {
             for (int j = 0; j < y; j++) {
                 auto mySprite = Sprite::create("MainMenu/boxes/panel.png");
