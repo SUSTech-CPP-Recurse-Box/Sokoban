@@ -34,7 +34,7 @@ bool GameScene::init()
     this->addChild(defaultBox);
     auto player = Box::create();
     player->set_to_player(player);
-    defaultBox->addBox(player,0,6);
+    defaultBox->addBox(player,0,6,true,true);
     auto smallBox = BoxCollection::create(5, 5, this, winSize.height / 2);
     defaultBox->addCollection(smallBox, 0, 7);
     _listener = EventListenerKeyboard::create();
