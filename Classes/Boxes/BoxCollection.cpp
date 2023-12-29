@@ -12,9 +12,9 @@ bool BoxCollection::init()
 }
 BoxCollection::BoxCollection(Color3B color, long x, long y, GameScene* gameScene,
     float size, long posX, long posY, Node* boxes[MAX_SIZE][MAX_SIZE],
-    BoxCollection* father, BoxCollection* actual_box, bool real) 
+    BoxCollection* father, BoxCollection* actual_box, bool real, int level)
     :x(x), y(y), gameScene(gameScene), size(size), color(color), father(father)
-    , posX(posX), posY(posY) ,actual_box(actual_box){
+    , posX(posX), posY(posY) ,actual_box(actual_box),level(level){
     log("--------");
     log("size:%f",size);
     //todo: copy the box in boxes and state
@@ -35,13 +35,13 @@ void BoxCollection::addBox(Sprite* object, long x, long y,bool true_body,bool pl
     // 将物体作为当前节点的子节点
     this->addChild(boxes[x][y], 1);
 }
-BoxCollection* BoxCollection::copy(float size, long posX, long posY, BoxCollection* father,bool real) {
-    return BoxCollection::create(color, x, y, gameScene, size, posX, posY, boxes, father, actual_box, real);
+BoxCollection* BoxCollection::copy(float size, long posX, long posY, BoxCollection* father,bool real, int level) {
+    return BoxCollection::create(color, x, y, gameScene, size, posX, posY, boxes, father, actual_box, real,level);
 }
 void BoxCollection::addCollection(BoxCollection* object, long x, long y, bool real)
 {
     // 将物体添加到集合中
-    boxes[x][y] = object->copy(boxSize,x,y,this,real);
+    boxes[x][y] = object->copy(boxSize,x,y,this,real,level+1);
     boxes[x][y]->setPosition(Vec2((2 * x - this->x + 1) * boxSize / 2, (this->y - 2 * y - 1) * boxSize / 2));
     // 将物体作为当前节点的子节点
     this->addChild(boxes[x][y], 1);
