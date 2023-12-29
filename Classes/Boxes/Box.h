@@ -6,7 +6,9 @@
 #include "../Tools/MyColor.h"
 USING_NS_CC;
 
-
+//todo:maybe some of the same variables should be init as a pointer so that
+//todo:we do not need to update them everytime we change one
+//todo: the update may have some error now
 class Box : public Sprite {
 private:
 

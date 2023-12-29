@@ -6,7 +6,8 @@
 #include "../Tools/MyColor.h"
 #define MAX_SIZE 10
 USING_NS_CC;
-
+//todo:maybe some of the same variables should be init as a pointer so that
+//todo:we do not need to update them everytime we change one
 class BoxCollection :public cocos2d::Node {
 private:
     Color3B color;
