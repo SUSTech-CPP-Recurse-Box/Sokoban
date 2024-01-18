@@ -24,7 +24,7 @@
 
 #include "AppDelegate.h"
 #include "MainMenu/SysMenuScene.h"
-
+#include "Tools/SaveManager.h"
  // #define USE_AUDIO_ENGINE 1
 
 #if USE_AUDIO_ENGINE
@@ -79,6 +79,10 @@ bool AppDelegate::applicationDidFinishLaunching() {
 #endif
         director->setOpenGLView(glview);
     }
+    ////test for save;
+    //std::string sc[] = { "d","a","w"};
+    //SaveManager::getInstance()->saveGame(1, sc);
+
 
     // turn on display FPS
     director->setDisplayStats(true);
