@@ -12,10 +12,10 @@ Scene* GameScene::scene()
     scene->addChild(GameScene);
     return scene;
 }
-//todo:ÕâÀïÔö¼Ó´«Èë²ÎÊıÓÃÀ´·Ö±æÊÇÄÄ¸ölevel
-//todo:¶ÁÈë¹Ø¿¨ÅäÖÃÎÄ¼ş
-//todo:°´ÕÕ¹Ø¿¨ÅäÖÃÎÄ¼şÉú³ÉµØÍ¼
-//todo:ÔÚµØÍ¼ÖĞ·ÅÖÃµÄÏä×ÓÓ¦ÎªÔ­Ê¼Ïä×ÓµÄ¸´ÖÆÌå£¨ÓÃÓÚÊµÏÖ¶àÖØÇ¶Ì×£¬·ÖÉíµÈ¹¦ÄÜ£©
+//todo:è¿™é‡Œå¢åŠ ä¼ å…¥å‚æ•°ç”¨æ¥åˆ†è¾¨æ˜¯å“ªä¸ªlevel
+//todo:è¯»å…¥å…³å¡é…ç½®æ–‡ä»¶
+//todo:æŒ‰ç…§å…³å¡é…ç½®æ–‡ä»¶ç”Ÿæˆåœ°å›¾
+//todo:åœ¨åœ°å›¾ä¸­æ”¾ç½®çš„ç®±å­åº”ä¸ºåŸå§‹ç®±å­çš„å¤åˆ¶ä½“ï¼ˆç”¨äºå®ç°å¤šé‡åµŒå¥—ï¼Œåˆ†èº«ç­‰åŠŸèƒ½ï¼‰
 
 bool GameScene::init()
 {
@@ -73,7 +73,7 @@ void GameScene::onKeyPressed(EventKeyboard::KeyCode keyCode, Event* event)
 {
     log("Key with keycode %d pressed", keyCode);
 }
-//todo: ÒÆ¶¯º¯ÊıÈë¿ÚÔÚÕâÀï
+//todo: ç§»åŠ¨å‡½æ•°å…¥å£åœ¨è¿™é‡Œ
 void GameScene::onKeyReleased(EventKeyboard::KeyCode keyCode, Event* event)
 {
     log("Key with keycode %d released", keyCode);

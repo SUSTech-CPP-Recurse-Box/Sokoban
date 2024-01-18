@@ -10,18 +10,18 @@ private:
 
 public:
     static cocos2d::Color3B RandomLight() {
-        // Éú³ÉÒ»¸öËæ»úË÷Òı
+        // ç”Ÿæˆä¸€ä¸ªéšæœºç´¢å¼•
         int randomIndex = rand() % 10;
-        // ½«ÑÕÉ«×ª»»Îª Color3B ÀàĞÍ²¢·µ»Ø
+        // å°†é¢œè‰²è½¬æ¢ä¸º Color3B ç±»å‹å¹¶è¿”å›
         return cocos2d::Color3B(
             lightColor[randomIndex][0],
             lightColor[randomIndex][1],
             lightColor[randomIndex][2]);
     }
     static cocos2d::Color3B RandomDark() {
-        // Éú³ÉÒ»¸öËæ»úË÷Òı
+        // ç”Ÿæˆä¸€ä¸ªéšæœºç´¢å¼•
         int randomIndex = rand() % 10;
-        // ½«ÑÕÉ«×ª»»Îª Color3B ÀàĞÍ²¢·µ»Ø
+        // å°†é¢œè‰²è½¬æ¢ä¸º Color3B ç±»å‹å¹¶è¿”å›
         return cocos2d::Color3B(
             darkColor[randomIndex][0],
             darkColor[randomIndex][1],

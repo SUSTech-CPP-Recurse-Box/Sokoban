@@ -6,7 +6,7 @@ bool BoxCollection::init()
         return false;
     }
 
-    // ³õÊ¼»¯¼¯ºÏ
+    // åˆå§‹åŒ–é›†åˆ
 
     return true;
 }
@@ -26,13 +26,13 @@ BoxCollection::BoxCollection(Color3B color, long x, long y, GameScene* gameScene
     log("--------");
     addPanel();
 }
-//todo: (³¢ÊÔ)ÊµÏÖ¶ÔÕû¸öµØÍ¼µÄ·Å´óºÍËõÐ¡
+//todo: (å°è¯•)å®žçŽ°å¯¹æ•´ä¸ªåœ°å›¾çš„æ”¾å¤§å’Œç¼©å°
 void BoxCollection::addBox(Sprite* object, long x, long y,bool true_body,bool player)
 {
-    // ½«ÎïÌåÌí¼Óµ½¼¯ºÏÖÐ
+    // å°†ç‰©ä½“æ·»åŠ åˆ°é›†åˆä¸­
     boxes[x][y] = (dynamic_cast<Box*>(object)->copy(x, y, boxSize, this,true_body,player));
     boxes[x][y]->setPosition(Vec2((2 * x - this->x + 1) * boxSize / 2, (this->y - 2 * y - 1) * boxSize / 2));
-    // ½«ÎïÌå×÷Îªµ±Ç°½ÚµãµÄ×Ó½Úµã
+    // å°†ç‰©ä½“ä½œä¸ºå½“å‰èŠ‚ç‚¹çš„å­èŠ‚ç‚¹
     this->addChild(boxes[x][y], 1);
 }
 BoxCollection* BoxCollection::copy(float size, long posX, long posY, BoxCollection* father,bool real, int level) {
@@ -40,10 +40,10 @@ BoxCollection* BoxCollection::copy(float size, long posX, long posY, BoxCollecti
 }
 void BoxCollection::addCollection(BoxCollection* object, long x, long y, bool real)
 {
-    // ½«ÎïÌåÌí¼Óµ½¼¯ºÏÖÐ
+    // å°†ç‰©ä½“æ·»åŠ åˆ°é›†åˆä¸­
     boxes[x][y] = object->copy(boxSize,x,y,this,real,level+1);
     boxes[x][y]->setPosition(Vec2((2 * x - this->x + 1) * boxSize / 2, (this->y - 2 * y - 1) * boxSize / 2));
-    // ½«ÎïÌå×÷Îªµ±Ç°½ÚµãµÄ×Ó½Úµã
+    // å°†ç‰©ä½“ä½œä¸ºå½“å‰èŠ‚ç‚¹çš„å­èŠ‚ç‚¹
     this->addChild(boxes[x][y], 1);
 }
 
@@ -51,11 +51,11 @@ void BoxCollection::addBox(long x, long y) {
     boxes[x][y] = Box::create();
     this->addChild(boxes[x][y]);
 }
-//£¨Box¼Ì³Ð×ÔSprite¼Ì³Ð×Ônode£©
-//todo: ÏÖÔÚÕâÀïÃ»ÓÐÈÎºÎ¹æÔò
-//todo: ÐèÒªÐ´Ò»¸ö¸üÓÅÑÅµÄÒÆ¶¯×÷ÎªÒ»¸öº¯Êý,ÐèÒª´¦ÀíÏä×ÓÒÆ¶¯¹ý³Ì£¬Ïä×ÓÒÆ¶¯Ö®ºó×ø±êµÄ±ä»»
-//todo: ÐèÒª°ÑÏä×ÓÎ»ÖÃ¼ÆËãÌá³öÒ»¸öº¯Êý
-//todo: ÕâÀïµÄÒÆ¶¯ÊÇÍ¨¹ýplayframeÖÐµÄplayerÒÆ¶¯´«ÈëplayerËùÔÚµÄBoxCollection£¨defaultBox£©È»ºóµ÷ÓÃÕâ¸öº¯Êý½øÐÐµÄ
+//ï¼ˆBoxç»§æ‰¿è‡ªSpriteç»§æ‰¿è‡ªnodeï¼‰
+//todo: çŽ°åœ¨è¿™é‡Œæ²¡æœ‰ä»»ä½•è§„åˆ™
+//todo: éœ€è¦å†™ä¸€ä¸ªæ›´ä¼˜é›…çš„ç§»åŠ¨ä½œä¸ºä¸€ä¸ªå‡½æ•°,éœ€è¦å¤„ç†ç®±å­ç§»åŠ¨è¿‡ç¨‹ï¼Œç®±å­ç§»åŠ¨ä¹‹åŽåæ ‡çš„å˜æ¢
+//todo: éœ€è¦æŠŠç®±å­ä½ç½®è®¡ç®—æå‡ºä¸€ä¸ªå‡½æ•°
+//todo: è¿™é‡Œçš„ç§»åŠ¨æ˜¯é€šè¿‡playframeä¸­çš„playerç§»åŠ¨ä¼ å…¥playeræ‰€åœ¨çš„BoxCollectionï¼ˆdefaultBoxï¼‰ç„¶åŽè°ƒç”¨è¿™ä¸ªå‡½æ•°è¿›è¡Œçš„
 bool BoxCollection::processObjects(cocos2d::Node* startObject, long dirX, long dirY)
 {
     if (dynamic_cast<Box*>(startObject)) {
@@ -82,7 +82,7 @@ void BoxCollection::addPanel() {
 }
 void BoxCollection::updateSize() {
 
-    //todo:¸üÐÂÄÚ²¿È«²¿·½¿éµÄ´óÐ¡
+    //todo:æ›´æ–°å†…éƒ¨å…¨éƒ¨æ–¹å—çš„å¤§å°
     log("boxSize:%f", boxSize);
     log("%d", x);
     for (long i = 0; i < x; i++) {

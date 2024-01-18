@@ -22,7 +22,7 @@ public:
     long posY;
     long x;
     long y;
-    float size;//考虑直接通过layer计算
+    float size;//鑰冭檻鐩存帴閫氳繃layer璁＄畻
     float boxSize;
     BoxCollection* actual_box;
     BoxCollection* father;
