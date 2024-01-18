@@ -65,6 +65,7 @@ list(APPEND GAME_SOURCE
      Classes/Boxes/Player.cpp
      Classes/Boxes/BoxCollection.cpp
      Classes/Tools/MyColor.cpp
+     Classes/Tools/pos.cpp
      )
 list(APPEND GAME_HEADER
      Classes/AppDelegate.h
@@ -76,6 +77,7 @@ list(APPEND GAME_HEADER
      Classes/Boxes/Player.h
      Classes/Boxes/BoxCollection.h
      Classes/Tools/MyColor.h
+     Classes/Tools/pos.h
      )
 
 if(ANDROID)

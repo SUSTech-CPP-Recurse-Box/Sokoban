@@ -31,7 +31,7 @@ void BoxCollection::addBox(Sprite* object, long x, long y,bool true_body,bool pl
 {
     // 将物体添加到集合中
     boxes[x][y] = (dynamic_cast<Box*>(object)->copy(x, y, boxSize, this,true_body,player));
-    boxes[x][y]->setPosition(Vec2((2 * x - this->x + 1) * boxSize / 2, (this->y - 2 * y - 1) * boxSize / 2));
+    boxes[x][y]->setPosition(Vec2((2 * x - this->x + 1) * boxSize / 2, (-this->y + 2 * y +1) * boxSize / 2));
     // 将物体作为当前节点的子节点
     this->addChild(boxes[x][y], 1);
 }
@@ -42,7 +42,7 @@ void BoxCollection::addCollection(BoxCollection* object, long x, long y, bool re
 {
     // 将物体添加到集合中
     boxes[x][y] = object->copy(boxSize,x,y,this,real,level+1);
-    boxes[x][y]->setPosition(Vec2((2 * x - this->x + 1) * boxSize / 2, (this->y - 2 * y - 1) * boxSize / 2));
+    boxes[x][y]->setPosition(Vec2((2 * x - this->x + 1) * boxSize / 2, (-this->y + 2 * y +1) * boxSize / 2));
     // 将物体作为当前节点的子节点
     this->addChild(boxes[x][y], 1);
 }
@@ -56,19 +56,63 @@ void BoxCollection::addBox(long x, long y) {
 //todo: 需要写一个更优雅的移动作为一个函数,需要处理箱子移动过程，箱子移动之后坐标的变换
 //todo: 需要把箱子位置计算提出一个函数
 //todo: 这里的移动是通过playframe中的player移动传入player所在的BoxCollection（defaultBox）然后调用这个函数进行的
+
 bool BoxCollection::processObjects(cocos2d::Node* startObject, long dirX, long dirY)
 {
-    if (dynamic_cast<Box*>(startObject)) {
-        Box* box = dynamic_cast<Box*>(startObject);
-        boxes[box->posX][box->posY] = nullptr;
-        boxes[box->posX + dirX][y + dirY] = box;
-        box->runAction(MoveBy::create(0.2, Vec2(dirX * boxSize, dirY * boxSize)));
+    int valid = 1;
+    Box* box = dynamic_cast<Box*>(startObject);
+    std::stack<Node*> myNode;
+    myNode.push(box);
+    Node* next = box;
+    while (1) {
+        int next_x, next_y;
+        if (dynamic_cast<Box*>(next)) {
+            next_x = dynamic_cast<Box*>(next)->posX + dirX;
+            next_y = dynamic_cast<Box*>(next)->posY + dirY;
+        }
+        else {
+            next_x = dynamic_cast<BoxCollection*>(next)->posX + dirX;
+            next_y = dynamic_cast<BoxCollection*>(next)->posY + dirY;
+        }
+        if (!(next_x >= 0 && next_x < MAX_SIZE && next_y >= 0 && next_y < MAX_SIZE)) {
+            valid = 0;
+            break;
+        }
+        if (!dynamic_cast<Box*>(boxes[next_x][next_y])&& !dynamic_cast<BoxCollection*>(boxes[next_x][next_y])) {
+            break;
+        }
+        myNode.push(boxes[next_x][next_y]);
+        next = boxes[next_x][next_y];
+        log("next_x:%ld;next_y:%ld;", next_x, next_y);
+    }
+    if (valid) {
+        while (!myNode.empty())
+        {
+            int next_x,  next_y;
+            Node* nd = myNode.top();
+            if (dynamic_cast<Box*>(nd)) {
+                next_x = dynamic_cast<Box*>(nd)->posX + dirX;
+                next_y = dynamic_cast<Box*>(nd)->posY + dirY;
+                dynamic_cast<Box*>(nd)->posX = next_x;
+                dynamic_cast<Box*>(nd)->posY = next_y;
+
+            }
+            else {
+                next_x = dynamic_cast<BoxCollection*>(nd)->posX + dirX;
+                next_y = dynamic_cast<BoxCollection*>(nd)->posY + dirY;
+                dynamic_cast<BoxCollection*>(nd)->posX = next_x;
+                dynamic_cast<BoxCollection*>(nd)->posY = next_y;
+            }
+            boxes[next_x ][next_y ] = nd;
+            boxes[next_x- dirX][next_y- dirY] = nullptr;
+            nd->runAction(MoveBy::create(0.2, Vec2(dirX * boxSize, dirY * boxSize)));
+            myNode.pop();
+        }
     }
     return true;
 }
-void BoxCollection::addPanel() {
 
-    
+void BoxCollection::addPanel() {
     for (long i = 0; i < x; i++) {
         for (long j = 0; j < y; j++) {
             panels[i][j] = Sprite::create("MainMenu/boxes/panel.png");

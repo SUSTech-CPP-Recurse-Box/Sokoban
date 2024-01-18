@@ -35,10 +35,10 @@ bool GameScene::init()
     log("default panel boxSize: %f", defaultBox->boxSize);
     auto player = Box::create();
     player->set_to_player(player);
-    defaultBox->addBox(player,0,6,true,true);
-    defaultBox->addBox(player, 0, 5, false, true);
+    defaultBox->addBox(player,0,5,true,true);
+    defaultBox->addBox(player, 3, 5, false, true);
     auto smallBox = BoxCollection::create(5, 5, this, winSize.height / 2);
-    defaultBox->addCollection(smallBox, 0, 7,true);
+    defaultBox->addCollection(smallBox, 2, 7,true);
     log("smallBox panel boxSize: %f", smallBox->boxSize);
     _listener = EventListenerKeyboard::create();
     _listener->onKeyPressed=CC_CALLBACK_2(GameScene::onKeyPressed, this);
@@ -65,7 +65,6 @@ bool GameScene::init()
     Menu* backMenu = Menu::create(backMain, nullptr);
     backMenu->setPosition(Vec2(winSize.width / 2, 48));
     addChild(backMenu, 1);
-
 
     return true;
 }

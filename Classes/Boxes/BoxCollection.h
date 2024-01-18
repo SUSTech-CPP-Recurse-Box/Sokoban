@@ -2,8 +2,9 @@
 #define _BOX_COLLECTION_H_
 #include "cocos2d.h"
 #include "../GameFrame/GameScene.h"
-
 #include "../Tools/MyColor.h"
+#include "../Tools/pos.h"
+#include <stack>
 #define MAX_SIZE 10
 #define MAX_LEVEL 5
 USING_NS_CC;
@@ -20,6 +21,7 @@ public:
     int level;
     long posX;
     long posY;
+    long box;
     long x;
     long y;
     float size;//鑰冭檻鐩存帴閫氳繃layer璁＄畻
@@ -33,6 +35,11 @@ public:
         :x(x),y(y),gameScene(gameScene),size(size),color(MyColor::RandomLight()),actual_box(this),level(0) {
         this->boxSize = x > y ? (size / (x + 1)) : size / (y + 1);
         addPanel();
+        for (int i = 0; i < MAX_SIZE; ++i) {
+            for (int j = 0; j < MAX_SIZE; ++j) {
+                boxes[i][j] = nullptr;  // 或者指向你想要的初始节点
+            }
+        }
     }
     BoxCollection(Color3B color, long x, long y, GameScene* gameScene,
         float size, long posX, long posY, Node* boxes[MAX_SIZE][MAX_SIZE],
@@ -52,7 +59,7 @@ public:
     void addCollection(BoxCollection* object, long x, long y,bool real);
     bool processObjects(cocos2d::Node* startObject, long dirX, long dirY);
     void addBox(long x, long y);
-
+    //pos* nextPos(pos* p,pos* move);
     static BoxCollection* create(long x, long y, GameScene* gameScene, float size)
     {
         BoxCollection* pRet = new(std::nothrow) BoxCollection(x, y, gameScene, size);

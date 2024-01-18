@@ -1,6 +1,5 @@
 #ifndef _BOX_H_
 #define _BOX_H_
-
 #include "cocos2d.h"
 #include "BoxCollection.h"
 #include "../Tools/MyColor.h"
