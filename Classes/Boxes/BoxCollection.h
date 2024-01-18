@@ -37,7 +37,7 @@ public:
         addPanel();
         for (int i = 0; i < MAX_SIZE; ++i) {
             for (int j = 0; j < MAX_SIZE; ++j) {
-                boxes[i][j] = nullptr;  // »òÕßÖ¸ÏòÄãÏëÒªµÄ³õÊ¼½Úµã
+                boxes[i][j] = nullptr;  // æˆ–è€…æŒ‡å‘ä½ æƒ³è¦çš„åˆå§‹èŠ‚ç‚¹
             }
         }
     }
