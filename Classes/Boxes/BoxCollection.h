@@ -6,8 +6,9 @@
 #include "../Tools/pos.h"
 #include <stack>
 #include <cmath>
+#include <vector>
 #define MAX_SIZE 10
-#define MAX_LEVEL 5
+#define MAX_LEVEL 10
 USING_NS_CC;
 //todo:maybe some of the same variables should be init as a pointer so that
 //todo:we do not need to update them everytime we change one
@@ -19,6 +20,7 @@ private:
     Sprite* panels[MAX_SIZE][MAX_SIZE];
     GameScene* gameScene;
 public:
+    std::vector<BoxCollection*>  boxList;
     int level;
     long posX;
     long posY;
@@ -58,7 +60,7 @@ public:
     //README: object should be Box and if the Box is a true body,else it would be false body
     Sprite* addBox(Sprite* object, long x, long y, bool true_body, bool player);
     BoxCollection* addCollection(BoxCollection* object, long x, long y,bool real);
-    bool processObjects(cocos2d::Node* startObject, long dirX, long dirY, bool belong);
+    bool processObjects(cocos2d::Node* startObject, long dirX, long dirY, int belong);
     void addBox(long x, long y);
     //pos* nextPos(pos* p,pos* move);
     static BoxCollection* create(long x, long y, GameScene* gameScene, float size)

@@ -29,18 +29,21 @@ bool GameScene::init()
     backGround->setPosition(Vec2(winSize.width / 2, winSize.height / 2));
     addChild(backGround, 0);
 
-    auto defaultBox = BoxCollection::create(5, 5, this,winSize.height/2);
+    auto defaultBox = BoxCollection::create(3, 3, this,winSize.height/2);
     defaultBox->setPosition(Vec2(winSize.width / 2, winSize.height / 2));
+    defaultBox->father = nullptr;
     this->addChild(defaultBox);
     log("default panel boxSize: %f", defaultBox->boxSize);
     auto player = Box::create();
     auto b1 = Box::createBundary();
     player->set_to_player(player);
-    defaultBox->addBox(player,0,3,true,true);
-    defaultBox->addBox(player, 3, 2, false, true);
-    auto smallBox = BoxCollection::create(5, 5, this, winSize.height / 2);
-    smallBox=defaultBox->addCollection(smallBox, 2, 4,true);
+    auto smallBox = BoxCollection::create(3, 3, this, winSize.height / 2);
+
+    smallBox->addBox(player,0,1,true,true);
+    smallBox->addBox(player, 2, 2, false, true);
+    smallBox=defaultBox->addCollection(smallBox, 2, 1,true);
     smallBox->addBox(b1, 2, 0, false, true);
+    smallBox->addCollection(smallBox, 1, 0, false);
 
     log("smallBox panel boxSize: %f", smallBox->boxSize);
     _listener = EventListenerKeyboard::create();
@@ -80,18 +83,18 @@ void GameScene::onKeyReleased(EventKeyboard::KeyCode keyCode, Event* event)
 {
     log("Key with keycode %d released", keyCode);
     if (keyCode == EventKeyboard::KeyCode::KEY_W) {
-        Box::player->father->processObjects(Box::player, 0, 1,true);
+        Box::player->father->processObjects(Box::player, 0, 1,1);
         log("go up");
     }else if (keyCode == EventKeyboard::KeyCode::KEY_S) {
-        Box::player->father->processObjects(Box::player, 0, -1, true);
+        Box::player->father->processObjects(Box::player, 0, -1, 1);
         log("go down");
     }
     else if (keyCode == EventKeyboard::KeyCode::KEY_A) {
-        Box::player->father->processObjects(Box::player, -1,0, true);
+        Box::player->father->processObjects(Box::player, -1,0, 1);
         log("go left");
     }
     else if (keyCode == EventKeyboard::KeyCode::KEY_D) {
-        Box::player->father->processObjects(Box::player, 1, 0, true);
+        Box::player->father->processObjects(Box::player, 1, 0, 1);
         log("go right");
     }
 }

@@ -3,6 +3,7 @@
 #include "cocos2d.h"
 #include "BoxCollection.h"
 #include "../Tools/MyColor.h"
+
 USING_NS_CC;
 
 //todo:maybe some of the same variables should be init as a pointer so that
@@ -12,6 +13,7 @@ class Box : public Sprite {
 public:
     long posX;//
     long posY;//
+    int type;
     Color3B color;//copy
     BoxCollection* father;
     float size;
@@ -20,6 +22,7 @@ public:
     bool is_bondary=false;
     bool true_body;//copy
     Box* actual_box;// copy
+
     Box();
     Box( bool is_bondary);
     Box(Color3B color, Box* actual_box, long posX, long posY, float size, BoxCollection* father, bool true_body, bool player,bool is_bondary);

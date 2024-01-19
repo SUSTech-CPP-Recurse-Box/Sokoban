@@ -15,23 +15,28 @@ BoxCollection::BoxCollection(Color3B color, long x, long y, GameScene* gameScene
     BoxCollection* father, BoxCollection* actual_box, bool real, int level)
     :x(x), y(y), gameScene(gameScene), size(size), color(color), father(father)
     , posX(posX), posY(posY) ,actual_box(actual_box),level(level){
-    log("--------");
-    log("size:%f",size);
-    for (int i = 0; i < MAX_SIZE; i++) {
-        for(int j=0;j<MAX_SIZE;j++){
-            if (dynamic_cast<Box*>(boxes[i][j]))
-                this->boxes[i][j] = dynamic_cast<Box*>(boxes[i][j])->copy(boxSize,i,j,this,false,level+1);
-            else if (dynamic_cast<BoxCollection*>(boxes[i][j]))
-                this->boxes[i][j] = dynamic_cast<BoxCollection*>(boxes[i][j])->copy(boxSize, i, j, this, false, level + 1);
-            else
-                this->boxes[i][j] = nullptr;
-        }
-    }
-    //todo: copy the box in boxes and state
+    //log("--------");
+    //log("size:%f",size);
     if (real) {
         actual_box = this;
     }
     this->boxSize = x > y ? (size / (x + 1)) : size / (y + 1);
+    for (int i = 0; i < MAX_SIZE; i++) {
+        for(int j=0;j<MAX_SIZE;j++){
+            if (dynamic_cast<Box*>(boxes[i][j])){
+                Box* tmp = dynamic_cast<Box*>(boxes[i][j]);
+                this->boxes[i][j] = addBox(tmp, i, j, false, false);
+            }
+            else if (dynamic_cast<BoxCollection*>(boxes[i][j])) {
+                this->boxes[i][j] = addCollection(dynamic_cast<BoxCollection*>(boxes[i][j]), i, j, false);
+            }
+            else {
+                this->boxes[i][j] = nullptr;
+            }
+        }
+    }
+    //todo: copy the box in boxes and state
+    
     log("boxSize:%f", boxSize);
     log("--------");
     addPanel();
@@ -44,6 +49,7 @@ Sprite* BoxCollection::addBox(Sprite* object, long x, long y,bool true_body,bool
     boxes[x][y]->setPosition(Vec2((2 * x - this->x + 1) * boxSize / 2, (-this->y + 2 * y + 1) * boxSize / 2));
     // 将物体作为当前节点的子节点
     this->addChild(boxes[x][y], 1);
+    dynamic_cast<Box*>(boxes[x][y])->father = this;
     return dynamic_cast<Sprite*>(boxes[x][y]);
 }
 BoxCollection* BoxCollection::copy(float size, long posX, long posY, BoxCollection* father,bool real, int level) {
@@ -56,12 +62,14 @@ BoxCollection* BoxCollection::addCollection(BoxCollection* object, long x, long 
     boxes[x][y]->setPosition(Vec2((2 * x - this->x + 1) * boxSize / 2, (-this->y + 2 * y +1) * boxSize / 2));
     // 将物体作为当前节点的子节点
     this->addChild(boxes[x][y], 1);
+    dynamic_cast<BoxCollection*>(boxes[x][y])->father = this;
     return dynamic_cast<BoxCollection*>(boxes[x][y]);
 }
 
 void BoxCollection::addBox(long x, long y) {
     boxes[x][y] = Box::create();
     this->addChild(boxes[x][y]);
+
 }
 //（Box继承自Sprite继承自node）
 //todo: 现在这里没有任何规则
@@ -69,7 +77,7 @@ void BoxCollection::addBox(long x, long y) {
 //todo: 需要把箱子位置计算提出一个函数
 //todo: 这里的移动是通过playframe中的player移动传入player所在的BoxCollection（defaultBox）然后调用这个函数进行的
 
-bool BoxCollection::processObjects(cocos2d::Node* startObject, long dirX, long dirY, bool belong)
+bool BoxCollection::processObjects(cocos2d::Node* startObject, long dirX, long dirY, int belong)//1:属于，0：进去，-1：出来
 {
     int valid = 1;
     std::stack<Node*> myNode;
@@ -77,7 +85,7 @@ bool BoxCollection::processObjects(cocos2d::Node* startObject, long dirX, long d
     Node* next = startObject;
     int next_x, next_y;
     int orgX, orgY;
-    if (belong) {
+    if (belong==1) {
         if (dynamic_cast<Box*>(next)) {
             next_x = dynamic_cast<Box*>(next)->posX + dirX;
             next_y = dynamic_cast<Box*>(next)->posY + dirY;
@@ -87,7 +95,7 @@ bool BoxCollection::processObjects(cocos2d::Node* startObject, long dirX, long d
             next_y = dynamic_cast<BoxCollection*>(next)->posY + dirY;
         }
     }
-    else {
+    else if (belong == 0) {
         if (dirX != 0) {
             next_y = y-y/2-1;
             next_x = dirX > 0 ? 0 : x-1;
@@ -98,13 +106,44 @@ bool BoxCollection::processObjects(cocos2d::Node* startObject, long dirX, long d
         }
         orgX = next_x;
         orgY = next_y;
-        log("enter:x is %ld,y is %ld", orgX, orgY);
+    }
+    else if (belong == -1) {
+        next_x = dynamic_cast<BoxCollection*>(startObject)->father->posX + dirX;
+        next_y = dynamic_cast<BoxCollection*>(startObject)->father->posY + dirY;
     }
     while (1) {
         
-        if (!(next_x >= 0 && next_x < x && next_y >= 0 && next_y < y)) {
+        if (!(next_x >= 0 && next_x < x && next_y >= 0 && next_y < y)) {//边界
+            if (this) {
+                valid = 0;
+                log("11111");
+                break;
+            }
+            if (father) {
+                valid = 0;
+                log("22222222");
+                break;
+            }
+            BoxCollection* father = this->father;
+            while (!myNode.empty())
+            {
+                Node* nd = myNode.top();
+                if (father->processObjects(nd, dirX, dirY, -1)) {
+                    if (dynamic_cast<Box*>(myNode.top())) {
+                        boxes[dynamic_cast<Box*>(myNode.top())->posX][dynamic_cast<Box*>(myNode.top())->posY] = nullptr;
+                    }
+                    else {
+                        boxes[dynamic_cast<BoxCollection*>(myNode.top())->posX][dynamic_cast<BoxCollection*>(myNode.top())->posY] = nullptr;
+                    }
+                    myNode.top()->removeFromParent();
+                    myNode.pop();
+                    valid = 1;
+                    break;
+                }
+            }
             valid = 0;
             break;
+            
         }
         if (!dynamic_cast<Box*>(boxes[next_x][next_y]) && !dynamic_cast<BoxCollection*>(boxes[next_x][next_y])) {
             break;
@@ -135,7 +174,7 @@ bool BoxCollection::processObjects(cocos2d::Node* startObject, long dirX, long d
             Node* nd = myNode.top();
             myNode.pop();
             if (dynamic_cast<BoxCollection*>(nd)) {
-                if (dynamic_cast<BoxCollection*>(nd)->processObjects(myNode.top(), dirX, dirY, false)) {
+                if (dynamic_cast<BoxCollection*>(nd)->processObjects(myNode.top(), dirX, dirY, 0)) {
                     if (dynamic_cast<Box*>(myNode.top())) {
                         boxes[dynamic_cast<Box*>(myNode.top())->posX][dynamic_cast<Box*>(myNode.top())->posY] = nullptr;
                     }
