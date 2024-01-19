@@ -29,16 +29,19 @@ bool GameScene::init()
     backGround->setPosition(Vec2(winSize.width / 2, winSize.height / 2));
     addChild(backGround, 0);
 
-    auto defaultBox = BoxCollection::create(10, 10, this,winSize.height/2);
+    auto defaultBox = BoxCollection::create(5, 5, this,winSize.height/2);
     defaultBox->setPosition(Vec2(winSize.width / 2, winSize.height / 2));
     this->addChild(defaultBox);
     log("default panel boxSize: %f", defaultBox->boxSize);
     auto player = Box::create();
+    auto b1 = Box::createBundary();
     player->set_to_player(player);
-    defaultBox->addBox(player,0,5,true,true);
-    defaultBox->addBox(player, 3, 5, false, true);
+    defaultBox->addBox(player,0,3,true,true);
+    defaultBox->addBox(player, 3, 2, false, true);
     auto smallBox = BoxCollection::create(5, 5, this, winSize.height / 2);
-    defaultBox->addCollection(smallBox, 2, 7,true);
+    smallBox=defaultBox->addCollection(smallBox, 2, 4,true);
+    smallBox->addBox(b1, 2, 0, false, true);
+
     log("smallBox panel boxSize: %f", smallBox->boxSize);
     _listener = EventListenerKeyboard::create();
     _listener->onKeyPressed=CC_CALLBACK_2(GameScene::onKeyPressed, this);
@@ -77,18 +80,18 @@ void GameScene::onKeyReleased(EventKeyboard::KeyCode keyCode, Event* event)
 {
     log("Key with keycode %d released", keyCode);
     if (keyCode == EventKeyboard::KeyCode::KEY_W) {
-        Box::player->father->processObjects(Box::player, 0, 1);
+        Box::player->father->processObjects(Box::player, 0, 1,true);
         log("go up");
     }else if (keyCode == EventKeyboard::KeyCode::KEY_S) {
-        Box::player->father->processObjects(Box::player, 0, -1);
+        Box::player->father->processObjects(Box::player, 0, -1, true);
         log("go down");
     }
     else if (keyCode == EventKeyboard::KeyCode::KEY_A) {
-        Box::player->father->processObjects(Box::player, -1,0);
+        Box::player->father->processObjects(Box::player, -1,0, true);
         log("go left");
     }
     else if (keyCode == EventKeyboard::KeyCode::KEY_D) {
-        Box::player->father->processObjects(Box::player, 1, 0);
+        Box::player->father->processObjects(Box::player, 1, 0, true);
         log("go right");
     }
 }

@@ -63,6 +63,7 @@ list(APPEND GAME_SOURCE
      Classes/GameFrame/GameScene.cpp
      Classes/Boxes/Box.cpp
      Classes/Boxes/Player.cpp
+     Classes/Boxes/BoxControler.cpp
      Classes/Boxes/BoxCollection.cpp
      Classes/Tools/MyColor.cpp
      Classes/Tools/pos.cpp
@@ -75,6 +76,7 @@ list(APPEND GAME_HEADER
      Classes/GameFrame/GameScene.h
      Classes/Boxes/Box.h
      Classes/Boxes/Player.h
+     Classes/Boxes/BoxControler.h
      Classes/Boxes/BoxCollection.h
      Classes/Tools/MyColor.h
      Classes/Tools/pos.h
