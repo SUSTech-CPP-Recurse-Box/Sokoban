@@ -22,7 +22,7 @@ public:
     std::vector<ResBox*> boxes;
     std::vector<ResBox*> infs;
     std::vector<ResBox*> epss;
-    
+
     ResBox* initBox;
     ResBox* player;
 

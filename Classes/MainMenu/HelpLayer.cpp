@@ -42,7 +42,7 @@ bool HelpLayer::init()
     title1->setColor(Color3B(31, 45, 150));
 
     std::string path = "MainMenu/help.png";
-    auto helpItem=MenuItemImage::create(path, path);
+    auto helpItem = MenuItemImage::create(path, path);
     helpItem->setPosition(Vec2(winSize.width / 2, winSize.height / 2));
     addChild(helpItem, 1);
 

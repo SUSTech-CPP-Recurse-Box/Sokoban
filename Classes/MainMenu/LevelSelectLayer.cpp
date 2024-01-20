@@ -1,5 +1,5 @@
 #include "SysMenuScene.h"
-#include "../GameFrame/GameScene.h"
+#include "GameFrame/GameScene.h"
 #include "LevelSelectLayer.h"
 
 
@@ -47,8 +47,8 @@ bool LevelSelectLayer::init()
     for (size_t i = 1; i <= 10; ++i)
     {
         std::string path = "MainMenu/levels/";
-        //path += std::to_string(i) +".png";
-        path += "1.png";
+        path += std::to_string(i) +".png";
+        //path += "1.png";
         auto levelItem = MenuItemImage::create(
             path,
             path,

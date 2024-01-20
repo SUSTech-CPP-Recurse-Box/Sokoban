@@ -155,7 +155,7 @@ void GameScene::onMouseScroll(Event* event)
     if (e)
     {
         float deltaY = e->getScrollY();
-        controler::get()->magnify(-deltaY*10);
+        controler::get()->magnify(-deltaY * 10);
         log("Mouse scrolled: %f", deltaY);
     }
 }
@@ -173,7 +173,7 @@ void  GameScene::onMouseDown(Event* event)
     EventMouse* e = dynamic_cast<EventMouse*>(event);
     if (e)
     {
- 
+
         startPos = Vec2(e->getCursorX(), e->getCursorY());
 
         log("Mouse button pressed at (%.2f, %.2f)", startPos.x, startPos.y);
