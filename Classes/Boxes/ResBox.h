@@ -9,7 +9,7 @@ using pii = std::pair<int, int>;
 class ResBox {
 public:
 	int type;
-	(ResBox*)son[MAX_SIZE][MAX_SIZE];
+	ResBox* son[MAX_SIZE][MAX_SIZE];
 	ResBox* father;//真父亲指针
 	pii pos;//在真父亲内部所在的位置
 	pii size;//盒子大小,初始化

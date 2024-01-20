@@ -28,7 +28,7 @@ bool GameScene::init()
     auto backGround = Sprite::create("MainMenu/MainBG.png");
     backGround->setPosition(Vec2(winSize.width / 2, winSize.height / 2));
     addChild(backGround, 0);
-
+    //====================================================================
     auto defaultBox = BoxCollection::create(5, 5, this,winSize.height/2);
     defaultBox->setPosition(Vec2(winSize.width / 2, winSize.height / 2));
     this->addChild(defaultBox);
@@ -43,6 +43,7 @@ bool GameScene::init()
     smallBox->addBox(b1, 2, 0, false, true);
 
     log("smallBox panel boxSize: %f", smallBox->boxSize);
+    //=====================================================================
     _listener = EventListenerKeyboard::create();
     _listener->onKeyPressed=CC_CALLBACK_2(GameScene::onKeyPressed, this);
     _listener->onKeyReleased = CC_CALLBACK_2(GameScene::onKeyReleased, this);

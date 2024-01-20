@@ -66,6 +66,7 @@ list(APPEND GAME_SOURCE
      Classes/Boxes/BoxControler.cpp
      Classes/Boxes/BoxCollection.cpp
      Classes/Boxes/ResBox.cpp
+     Classes/Boxes/controler.cpp
      Classes/Tools/MyColor.cpp
      Classes/Tools/pos.cpp
      Classes/Tools/SaveManager.cpp
@@ -81,6 +82,7 @@ list(APPEND GAME_HEADER
      Classes/Boxes/BoxControler.h
      Classes/Boxes/BoxCollection.h
      Classes/Boxes/ResBox.h
+     Classes/Boxes/controler.h
      Classes/Tools/MyColor.h
      Classes/Tools/pos.h
      Classes/Tools/SaveManager.h
