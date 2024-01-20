@@ -11,7 +11,9 @@ Level 5: the same as Level 3
 
 Level 6: **Greedy Snake**
 
-Level 7: **Recursion Overflow**
+Level 7: **Recursion Overflow In**
+
+Level 8: **Recursion Overflow Out**
 
 Level 10: ???
 
