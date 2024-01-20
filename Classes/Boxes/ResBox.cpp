@@ -72,7 +72,11 @@ bool ResBox::processObjects(ResBox* startObject, ResBox* lastFather, ResBox* sta
 				if (fathers->processObjects(mybox.top(), this, (mybox.size() == 1 && belong != 0) ? startFather : this,
 					// 方向，父亲的位置，         出边界，原始箱子,我的位置
 					dir, { posx.top(),posy.top() }, -1, first, { posx.top() - dir.first,posy.top() - dir.second },pos_1, lastFather)) {
-					son[posx.top() - dir.first][posy.top() - dir.second] = nullptr;
+					if (mybox.size() == 1 && son[posx.top() - dir.first][posy.top() - dir.second] != mybox.top() && mybox.top() == first) {
+					}
+					else {
+						son[posx.top() - dir.first][posy.top() - dir.second] = nullptr;
+					}
 					mybox.pop();
 					posx.pop();
 					posy.pop();
@@ -82,7 +86,7 @@ bool ResBox::processObjects(ResBox* startObject, ResBox* lastFather, ResBox* sta
 			}
 
 		}
-		if (!son[next_x][next_y]) {//空
+		if (!son[next_x][next_y]||son[next_x][next_y]==first) {//空
 			break;
 		}
 		if (son[next_x][next_y]->type == 4) {
@@ -104,12 +108,13 @@ bool ResBox::processObjects(ResBox* startObject, ResBox* lastFather, ResBox* sta
 			mybox.pop();
 			posx.pop();
 			posy.pop();
-			if (nd->type == 1) {
+			if (nd->type == 1&& !mybox.empty()) {
 				//=====================  我自己，我的父亲，      最开始的父亲，      
 				if (nd->processObjects(mybox.top(), this, (mybox.size() == 1 && belong != 0) ? startFather : this,
 					//方向，我的位置，            进边界，原始箱子
 					dir, { posx.top(),posy.top() }, belong==-1?2:1, first, { posx.top() - dir.first,posy.top() - dir.second },pos_1, lastFather)) {
-					if (!(belong != 0 && mybox.size() == 1)) {
+					if (mybox.size() == 1 && son[posx.top() - dir.first][posy.top() - dir.second] != nd && nd == first) {
+					}else if (!(belong != 0 && mybox.size() == 1)) {
 						son[posx.top() - dir.first][posy.top() - dir.second] = nullptr;
 					}
 					mybox.pop();
@@ -132,6 +137,10 @@ bool ResBox::processObjects(ResBox* startObject, ResBox* lastFather, ResBox* sta
 				if (nd->father == startFather) {
 					nd->father = this;
 				}
+			}
+			else if (mybox.size() == 1&& son[posx.top() - dir.first][posy.top() - dir.second]!=nd&&nd== first) {
+				nd->pos = { posx.top(),posy.top() };
+				son[posx.top()][posy.top()] = nd;
 			}
 			else {
 				if (this == nd->father) {
