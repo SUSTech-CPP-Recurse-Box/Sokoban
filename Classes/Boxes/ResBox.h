@@ -26,7 +26,7 @@ public:
 	ResBox(int type, pii size);
 	void init();
 	void setTarget(pii p, int type) {//1:people,2:box
-		if (type == 1) {
+		if (type == 2) {
 			target_people.push_back(p);
 
 		}
@@ -41,6 +41,6 @@ public:
 		}
 	}
 	//belong 1:进-1出0正常
-	bool processObjects(ResBox* startObject, ResBox* lastFather, pii dir, pii pos, int belong, ResBox* first);
+	bool processObjects(ResBox* startObject, ResBox* lastFather, ResBox* startFather, pii dir, pii pos, int belong, ResBox* first, pii pos_1, pii pos_2, ResBox* llFather);
 };
 #endif

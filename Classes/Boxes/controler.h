@@ -172,7 +172,7 @@ public:
 		}
 		for (int i = 0; i < boxeslist.size(); i++) {
 			for (int j = 0; j < boxeslist[i]->target_people.size(); j++) {
-				pii p = boxeslist[i]->target_people[i];
+				pii p = boxeslist[i]->target_people[j];
 				if (!boxeslist[i]->son[p.first][p.second]) {
 					s = 0;
 					break;
@@ -202,7 +202,7 @@ public:
 	}
 	void move(pii dir) {
 		if (!suc) {
-			player->father->processObjects(player,player->father, dir, player->pos, 0, player);
+			player->father->processObjects(player, player->father, player->father, dir, player->pos, 0, player, player->pos, {1,1},nullptr);
 			//if (big != player->father) {
 				big = player->father;
 				if (player->father->father) {
