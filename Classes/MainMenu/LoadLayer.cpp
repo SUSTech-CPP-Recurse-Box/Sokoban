@@ -1,5 +1,6 @@
 #include "LoadLayer.h"
 #include "SysMenuScene.h"
+#include "GameFrame/GameScene.h"
 #include "Tools/SaveManager.h"
 
 using namespace std;
@@ -18,7 +19,6 @@ bool LoadLayer::init()
     {
         return false;
     }
-
 
 
     Size winSize = Director::getInstance()->getWinSize();
@@ -40,7 +40,7 @@ bool LoadLayer::init()
 
     SaveInfo* levelInfo = SaveManager::getInstance()->loadGame();
 
-    if (levelInfo) {
+    if (levelInfo != nullptr) {
         Vector<MenuItem*> saveInfos;
         Label* level_id_label = Label::createWithTTF("Level ID: " + to_string(levelInfo->level_id), "fonts/Marker Felt.ttf", 48);
         auto idItem = MenuItemLabel::create(level_id_label);
@@ -63,7 +63,7 @@ bool LoadLayer::init()
         saveInfos.pushBack(timeItem);
 
         Menu* levelsInfoMenu = Menu::createWithArray(saveInfos);
-        levelsInfoMenu->alignItemsInColumns(1, 1, 1 ,1);
+        levelsInfoMenu->alignItemsInColumns(1, 1, 1, 1);
         levelsInfoMenu->setPosition(Vec2(winSize.width / 2, winSize.height / 2));
         addChild(levelsInfoMenu, 1);
 
@@ -71,15 +71,10 @@ bool LoadLayer::init()
 
         playGame->setColor(Color3B(31, 45, 150));
         MenuItemLabel* playGameAction = MenuItemLabel::create(playGame,
-            [&](Ref* sender) {
-                Scene* scene = SysMenuScene::create();
-                Director::getInstance()->replaceScene(TransitionFade::create(1.2f, scene));
-            });
-        Menu* backMenu = Menu::create(playGameAction, nullptr);
-        backMenu->setPosition(Vec2(winSize.width / 2, 96 + 10));
-        addChild(backMenu, 1);
-
-        delete levelInfo;
+            CC_CALLBACK_1(LoadLayer::onLoad, this));
+        Menu* playMenu = Menu::create(playGameAction, nullptr);
+        playMenu->setPosition(Vec2(winSize.width / 2, 96 + 10));
+        addChild(playMenu, 1);
     }
     else {
         Label* missing = Label::createWithTTF("File Missing or Broken!", "fonts/Marker Felt.ttf", 48);
@@ -104,6 +99,14 @@ bool LoadLayer::init()
 
 
     return true;
+}
+
+void LoadLayer::onLoad(Ref* pSender) {
+    SaveInfo* info = SaveManager::getInstance()->info;
+    if (info != nullptr) {
+        Scene* scene = GameScene::scene(info->level_id, true);
+        Director::getInstance()->replaceScene(TransitionFade::create(1.2f, scene));
+    }
 }
 
 

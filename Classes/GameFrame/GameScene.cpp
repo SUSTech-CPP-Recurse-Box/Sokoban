@@ -4,15 +4,21 @@
 #include "MainMenu/SysMenuScene.h"
 #include "Boxes/controler.h"
 #include "Boxes/Panel.h"
+#include "Tools/SaveManager.h"
+
 #define DEFAULT_SPACE_SIZE 10
 
 
-Scene* GameScene::scene(int lid)
+Scene* GameScene::scene(int lid, bool saved)
 {
     Scene* scene = Scene::create();
     //todo:readfile
+
     controler::get()->init(lid);
-    
+    if (saved) {
+        controler::get()->needLoad = true;
+    }
+
     GameScene* GameScene = GameScene::create();
     scene->addChild(GameScene);
     return scene;
@@ -28,14 +34,14 @@ bool GameScene::init()
     {
         return false;
     }
-    
+
     Size winSize = Director::getInstance()->getWinSize();
 
     auto backGround = Sprite::create("MainMenu/MainBG.png");
     backGround->setPosition(Vec2(winSize.width / 2, winSize.height / 2));
     log("x:%lf;y:%lf", winSize.width / 2, winSize.height / 2);
     addChild(backGround, 0);
-    
+
     controler::get()->draw(this, 400);
     //====================================================================
     //auto defaultBox = BoxCollection::create(5, 5, this,winSize.height/2);
@@ -54,7 +60,7 @@ bool GameScene::init()
     //log("smallBox panel boxSize: %f", smallBox->boxSize);
     //=====================================================================
     _listener = EventListenerKeyboard::create();
-    _listener->onKeyPressed=CC_CALLBACK_2(GameScene::onKeyPressed, this);
+    _listener->onKeyPressed = CC_CALLBACK_2(GameScene::onKeyPressed, this);
     _listener->onKeyReleased = CC_CALLBACK_2(GameScene::onKeyReleased, this);
     _eventDispatcher->addEventListenerWithSceneGraphPriority(_listener, this);
    
@@ -72,6 +78,18 @@ bool GameScene::init()
     MenuItemFont::setFontSize(20);
     MenuItemFont::setFontName("Arial");
 
+    Label* saveLabel = Label::createWithTTF("Save Game", "fonts/Marker Felt.ttf", 48);
+    saveLabel->setColor(Color3B(31, 45, 150));
+    MenuItemLabel* saveItem = MenuItemLabel::create(saveLabel,
+        [&](Ref* sender) {
+            controler* con = controler::get();
+            SaveManager::getInstance()->saveGame(con->lid, con->mv);
+        });
+
+    Menu* saveMenu = Menu::create(saveItem, nullptr);
+    saveMenu->setPosition(Vec2(winSize.width / 2, 96 + 10));
+    addChild(saveMenu, 1);
+
     Label* back = Label::createWithTTF("Go back", "fonts/Marker Felt.ttf", 48);
     back->setColor(Color3B(31, 45, 150));
     MenuItemLabel* backMain = MenuItemLabel::create(back,
@@ -82,7 +100,11 @@ bool GameScene::init()
     Menu* backMenu = Menu::create(backMain, nullptr);
     backMenu->setPosition(Vec2(winSize.width / 2, 48));
     addChild(backMenu, 1);
-    
+
+    SaveInfo* info = SaveManager::getInstance()->info;
+    if (info) {
+        controler::get()->reload(info->actions);
+    }
     return true;
 }
 void GameScene::onKeyPressed(EventKeyboard::KeyCode keyCode, Event* event)
@@ -96,7 +118,8 @@ void GameScene::onKeyReleased(EventKeyboard::KeyCode keyCode, Event* event)
     if (keyCode == EventKeyboard::KeyCode::KEY_W) {
         controler::get()->move({ 0, 1 });
         log("go up");
-    }else if (keyCode == EventKeyboard::KeyCode::KEY_S) {
+    }
+    else if (keyCode == EventKeyboard::KeyCode::KEY_S) {
         controler::get()->move({ 0, -1 });
         log("go down");
     }

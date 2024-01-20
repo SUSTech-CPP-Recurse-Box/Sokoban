@@ -10,7 +10,7 @@ protected:
     EventListenerMouse* mouseListener;
 public:
     int lid;
-    static Scene* scene(int lid);
+    static Scene* scene(int lid, bool saved);
     virtual bool init();
 
     CREATE_FUNC(GameScene);

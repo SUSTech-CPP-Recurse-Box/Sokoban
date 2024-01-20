@@ -8,7 +8,7 @@ class LoadLayer : public Layer {
 
 public:
     static Scene* scene();
-
+    void onLoad(Ref* pSender);
 
     virtual bool init();
     CREATE_FUNC(LoadLayer);
