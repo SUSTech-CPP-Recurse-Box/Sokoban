@@ -13,6 +13,7 @@ public:
 	bool suc;
 	ResBox* big;
 	ResBox* player;
+	std::vector<pii> mv;
 	std::vector<Sprite*> boxes;
 	std::vector<ResBox*> boxeslist;
 	double size;
@@ -34,6 +35,7 @@ public:
 		big = nullptr;
 		player = nullptr;
 		gs = nullptr;
+		mv.clear();
 		boxes.clear();
 		boxeslist.clear();
 		//===============================
@@ -193,6 +195,7 @@ public:
 		if (!suc) {
 			player->father->processObjects(player, dir, player->pos, 0);
 			draw(gs, size);
+			mv.push_back(dir);
 			success();
 		}
 	}
