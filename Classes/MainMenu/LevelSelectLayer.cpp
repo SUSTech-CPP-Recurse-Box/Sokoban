@@ -65,7 +65,7 @@ bool LevelSelectLayer::init()
     MenuItemLabel* backMain = MenuItemLabel::create(back,
         [&](Ref* sender) {
             Scene* scene = SysMenuScene::create();
-            Director::getInstance()->replaceScene(TransitionFade::create(1.2f, scene));
+            Director::getInstance()->replaceScene(TransitionFade::create(0.2f, scene));
         });
     Menu* backMenu = Menu::create(backMain, nullptr);
     backMenu->setPosition(Vec2(winSize.width / 2, 48));
@@ -78,6 +78,6 @@ void LevelSelectLayer::onLevelSelect(Ref* pSender, int lid)
 {
     CCLOG("Select %d", lid);
     Scene* scene = GameScene::scene(lid, false);
-    Director::getInstance()->replaceScene(TransitionFade::create(1.2f, scene));
+    Director::getInstance()->replaceScene(TransitionFade::create(0.2f, scene));
 }
 

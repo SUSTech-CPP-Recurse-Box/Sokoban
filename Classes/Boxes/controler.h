@@ -5,6 +5,9 @@
 #include "Panel.h"
 #include <vector>
 #include "../GameFrame/GameScene.h"
+#include "Tools/SaveManager.h"
+
+
 USING_NS_CC;
 class ResBox;
 using pii = std::pair<int, int>;
@@ -202,6 +205,16 @@ public:
 			player->father->processObjects(player,player->father, dir, player->pos, 0, player);
 			draw(gs, size);
 			mv.push_back(dir);
+			std::vector<pii> stepRec(mv);
+			if (SaveManager::getInstance()->info != nullptr) {
+				delete SaveManager::getInstance()->info;
+				SaveManager::getInstance()->info = nullptr;
+				
+			}
+			SaveManager::getInstance()->info = new SaveInfo(this->lid, {}, "");
+			for (int i = 0; i < mv.size() - 1;++i) {
+				SaveManager::getInstance()->info->actions.push_back(mv[i]);
+			};
 			success();
 		}
 	}
