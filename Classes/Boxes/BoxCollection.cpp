@@ -108,18 +108,23 @@ bool BoxCollection::processObjects(cocos2d::Node* startObject, long dirX, long d
         orgY = next_y;
     }
     else if (belong == -1) {
-        next_x = dynamic_cast<BoxCollection*>(startObject)->father->posX + dirX;
-        next_y = dynamic_cast<BoxCollection*>(startObject)->father->posY + dirY;
+        if (dynamic_cast<BoxCollection*>(startObject)) {
+            next_x = dynamic_cast<BoxCollection*>(startObject)->father->posX + dirX;
+            next_y = dynamic_cast<BoxCollection*>(startObject)->father->posY + dirY;
+        }else {
+            next_x = dynamic_cast<Box*>(startObject)->father->posX + dirX;
+            next_y = dynamic_cast<Box*>(startObject)->father->posY + dirY;
+        }
     }
     while (1) {
         
         if (!(next_x >= 0 && next_x < x && next_y >= 0 && next_y < y)) {//边界
-            if (this) {
+            if (!this) {
                 valid = 0;
                 log("11111");
                 break;
             }
-            if (father) {
+            if (!father) {
                 valid = 0;
                 log("22222222");
                 break;
