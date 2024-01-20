@@ -6,8 +6,9 @@
 #include <vector>
 #include "../GameFrame/GameScene.h"
 USING_NS_CC;
+class ResBox;
 using pii = std::pair<int, int>;
-class controler {
+extern class controler {
 public:
 	int lid;
 	bool suc;
@@ -41,6 +42,7 @@ public:
 		//===============================
 		big = panel->boxes[0];
 		player = panel->player;
+		ResBox::player = player;
 		for (int i = 0; i < panel->boxes.size(); i++) {
 			boxeslist.push_back(panel->boxes[i]);
 		}
