@@ -124,7 +124,7 @@ bool Panel::levelInit(int id)
                         curBox->setTarget({ x,y }, 2);
                     }
                     if(smallBox != nullptr){
-                    curBox->addBox(smallBox, { x, y }, true); 
+                        curBox->addBox(smallBox, { x, y }, true); 
                     }
                 }
             }

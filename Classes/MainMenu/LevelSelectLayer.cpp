@@ -56,7 +56,7 @@ bool LevelSelectLayer::init()
         levels.pushBack(levelItem);
     }
     Menu* levelsLayerMenu = Menu::createWithArray(levels);
-    levelsLayerMenu->alignItemsInColumns(3,3,4);
+    levelsLayerMenu->alignItemsInColumns(3, 3, 4);
     levelsLayerMenu->setPosition(Vec2(winSize.width / 2, winSize.height / 2));
     addChild(levelsLayerMenu, 1);
 
@@ -77,7 +77,7 @@ bool LevelSelectLayer::init()
 void LevelSelectLayer::onLevelSelect(Ref* pSender, int lid)
 {
     CCLOG("Select %d", lid);
-    Scene* scene = GameScene::scene(lid);
+    Scene* scene = GameScene::scene(lid, false);
     Director::getInstance()->replaceScene(TransitionFade::create(1.2f, scene));
 }
 

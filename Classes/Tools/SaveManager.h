@@ -3,13 +3,14 @@
 
 #include "cocos2d.h"
 
+using pii = std::pair<int, int>;
 
 class SaveInfo {
 public:
     int level_id;
-    std::vector<std::string> actions;
+    std::vector<pii> actions;
     std::string time_str;
-    SaveInfo(int id, std::vector<std::string> acts, std::string time) :
+    SaveInfo(int id, std::vector<pii> acts, std::string time) :
         level_id(id), actions(acts), time_str(time) {}
 };
 
@@ -19,8 +20,9 @@ private:
     SaveManager();
     ~SaveManager();
 public:
+    SaveInfo* info;
     static SaveManager* getInstance();
-    bool saveGame(int level, std::string actions[]);
+    bool saveGame(int level_id, std::vector<pii> steps);
     SaveInfo* loadGame();
 };
 

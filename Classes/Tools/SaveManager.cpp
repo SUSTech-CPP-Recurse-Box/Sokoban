@@ -13,8 +13,11 @@
 using namespace rapidjson;
 USING_NS_CC;
 
+using pii = std::pair<int, int>;
+
 SaveManager::SaveManager()
 {
+    this->info = nullptr;
 }
 
 SaveManager::~SaveManager()
@@ -38,7 +41,7 @@ std::string getTimeString() {
     return timeStr;
 }
 
-bool SaveManager::saveGame(int level_id, std::string actions_in[])
+bool SaveManager::saveGame(int level_id, std::vector<pii> steps)
 {
     rapidjson::Document writedoc; //创建Document
     writedoc.SetObject();
@@ -46,13 +49,28 @@ bool SaveManager::saveGame(int level_id, std::string actions_in[])
     writedoc.AddMember("level_id", level_id, allocator); //添加map_level属性值
 
     rapidjson::Value actions_json(rapidjson::kArrayType);//创建players数组
-    for (size_t i = 0; i < 3; i++)
-    {
-        const char* s = actions_in[i].c_str();
+
+    for (pii step : steps) {
+        std::string dir;
+        if (step.first == 1 && step.second == 0) {
+            dir = "D";
+        }
+        if (step.first == -1 && step.second == 0) {
+            dir = "A";
+        }
+        if (step.first == 0 && step.second == 1) {
+            dir = "W";
+        }
+        if (step.first == 0 && step.second == -1) {
+            dir = "S";
+        }
+
+        const char* s = dir.c_str();
         rapidjson::Value actStr(rapidjson::kStringType);
         actStr.SetString(s, allocator);
         actions_json.PushBack(actStr, allocator);
     }
+
     writedoc.AddMember("actions", actions_json, allocator);
 
     rapidjson::Value timeStr(rapidjson::kStringType);
@@ -102,17 +120,39 @@ SaveInfo* SaveManager::loadGame() {
 
     //关卡ID载入
     int level_id = readdoc["level_id"].GetInt();
-    std::vector<std::string> actions;
+    std::vector<pii> loadedSteps;
     //步数载入
     rapidjson::Value& _actions = readdoc["actions"];
     if (_actions.IsArray())
     {
         for (int i = 0; i < _actions.Size(); i++)
         {
-            actions.push_back(_actions[i].GetString());
+            char dir = _actions[i].GetString()[0];
+            switch (dir)
+            {
+            case 'D':
+                loadedSteps.emplace_back(1, 0);
+                break;
+            case 'A':
+                loadedSteps.emplace_back(-1, 0);
+                break;
+            case 'W':
+                loadedSteps.emplace_back(0, 1);
+                break;
+            case 'S':
+                loadedSteps.emplace_back(0, -1);
+                break;
+            default:
+                break;
+            }
         }
     }
     std::string timeStr = readdoc["time"].GetString();
-    SaveInfo* info = new SaveInfo(level_id, actions, timeStr);
+
+    if (this->info != nullptr) {
+        delete this->info;
+        this->info = nullptr;
+    }
+    this->info = new SaveInfo(level_id, loadedSteps, timeStr);
     return info;
 }

@@ -12,6 +12,7 @@ extern class controler {
 public:
 	int lid;
 	bool suc;
+	bool needLoad;
 	ResBox* big;
 	ResBox* player;
 	std::vector<pii> mv;
@@ -32,7 +33,8 @@ public:
 		this->lid = lid;
 		Panel* panel = Panel::getInstance();
 		panel->levelInit(lid);
-		suc= false;
+		suc = false;
+		needLoad = false;
 		big = nullptr;
 		player = nullptr;
 		gs = nullptr;
@@ -202,14 +204,12 @@ public:
 			success();
 		}
 	}
-	void load(std::vector<pii> step) {
-		for (int i = 0; i < step.size(); i++) {
-			move(step[i]);
+	void reload(std::vector<pii> step) {
+		if (this->needLoad) {
+			for (int i = 0; i < step.size(); i++) {
+				move(step[i]);
+			}
 		}
-	}
-	void reload(int lid, std::vector<pii> step) {
-		init(lid);
-		load(step);
 	}
 };
 #endif
