@@ -8,9 +8,11 @@ USING_NS_CC;
 using pii = std::pair<int, int>;
 class controler {
 public:
+	bool suc;
 	ResBox* big;
 	ResBox* player;
 	std::vector<Sprite*> boxes;
+	std::vector<ResBox*> boxeslist;
 	double size;
 	GameScene* gs;
 	static controler* _instance;
@@ -23,13 +25,22 @@ public:
 	};
 	~controler() {};
 	void init() {
+		suc= false;
+		big = nullptr;
+		player = nullptr;
+		gs = nullptr;
+		boxes.clear();
+		boxeslist.clear();
 		big = new ResBox(1, {4,4});
+		boxeslist.push_back(big);
 		ResBox* b = new ResBox(1, { 2,2 });
+		boxeslist.push_back(b);
 		player = new ResBox(3, { 0,0 });
+		boxeslist.push_back(player);
 		big->setTarget({ 1,1 }, 1);
 		big->setTarget({ 2,1 }, 2);
 		big->addBox(player, { 2,3 }, true);
-		big->addBox(b, { 0,0 }, true);
+		big->addBox(b, { 2,2}, true);
 		big->addBox(big, { 1,0 }, false);
 	}
 	void initPanel(Sprite* fa, double size,pii s,Color3B color,ResBox* rb) {
@@ -39,7 +50,7 @@ public:
 				sp->setColor(color);
 				sp->setContentSize(Size(size, size));
 				sp->setPosition(Vec2((2 * i - s.first + 1) * size/2 , -(s.second - 2 * j - 1) * size/2 ));
-				log("x:%lf;y:%lf", (2 * i - s.first + 1) * size , -(s.second - 2 * j - 1) * size );
+				//log("x:%lf;y:%lf", (2 * i - s.first + 1) * size , -(s.second - 2 * j - 1) * size );
 				fa->addChild(sp);
 				boxes.push_back(sp);
 			}
@@ -49,7 +60,7 @@ public:
 			sp->setColor(color);
 			sp->setContentSize(Size(size, size));
 			sp->setPosition(Vec2((2 * rb->target_box[i].first - s.first + 1) * size / 2, -(s.second - 2 * rb->target_box[i].second - 1) * size / 2));
-			log("x:%lf;y:%lf", (2 * rb->target_box[i].first - s.first + 1) * size, -(s.second - 2 * rb->target_box[i].second - 1) * size);
+			//log("x:%lf;y:%lf", (2 * rb->target_box[i].first - s.first + 1) * size, -(s.second - 2 * rb->target_box[i].second - 1) * size);
 			fa->addChild(sp);
 			boxes.push_back(sp);
 		}
@@ -58,7 +69,7 @@ public:
 			sp->setColor(color);
 			sp->setContentSize(Size(size, size));
 			sp->setPosition(Vec2((2 * rb->target_people[i].first - s.first + 1) * size / 2, -(s.second - 2 * rb->target_people[i].second - 1) * size / 2));
-			log("x:%lf;y:%lf", (2 * rb->target_people[i].first - s.first + 1) * size, -(s.second - 2 * rb->target_people[i].second - 1) * size);
+			//log("x:%lf;y:%lf", (2 * rb->target_people[i].first - s.first + 1) * size, -(s.second - 2 * rb->target_people[i].second - 1) * size);
 			fa->addChild(sp);
 			boxes.push_back(sp);
 		}
@@ -118,9 +129,60 @@ public:
 			}
 		}
 	}
+	boolean success() {
+		int s = 1;
+		for (int i = 0; i < boxeslist.size(); i++) {
+			for (int j = 0; j < boxeslist[i]->target_box.size(); j++) {
+				pii p = boxeslist[i]->target_box[i];
+				if (!boxeslist[i]->son[p.first][p.second]) {
+					s = 0;
+					break;
+				}
+				if (boxeslist[i]->son[p.first][p.second]->type != 1 && boxeslist[i]->son[p.first][p.second]->type != 2) {
+					s = 0;
+					break;
+				}
+			}
+			if (s == 0) {
+				break;
+			}
+		}
+		for (int i = 0; i < boxeslist.size(); i++) {
+			for (int j = 0; j < boxeslist[i]->target_people.size(); j++) {
+				pii p = boxeslist[i]->target_people[i];
+				if (!boxeslist[i]->son[p.first][p.second]) {
+					s = 0;
+					break;
+				}
+				if (boxeslist[i]->son[p.first][p.second]->type != 3) {
+					s = 0;
+					break;
+				}
+			}
+			if (s == 0) {
+				break;
+			}
+		}
+		if (s == 1) {
+			log("success========================");
+			suc = true;
+			Size winSize = Director::getInstance()->getWinSize();
+			auto levelTitle = Label::createWithTTF("Success!", "fonts/Marker Felt.ttf", 48);
+			levelTitle->setPosition(Vec2(winSize.width / 2,
+				winSize.height/2));
+
+			gs->addChild(levelTitle);
+			return true;
+		}
+		return false;
+
+	}
 	void move(pii dir) {
-		player->father->processObjects(player, dir, player->pos, 0);
-		draw(gs, size);
+		if (!suc) {
+			player->father->processObjects(player, dir, player->pos, 0);
+			draw(gs, size);
+			success();
+		}
 	}
 };
 #endif
