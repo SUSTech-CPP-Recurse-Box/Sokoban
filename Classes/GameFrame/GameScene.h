@@ -10,6 +10,7 @@ class GameScene : public Layer {
 protected:
     EventListenerKeyboard* _listener;
     EventListenerMouse* mouseListener;
+    Vec2 startPos;
 public:
     int lid;
     static Scene* scene(int lid, bool saved);
@@ -26,6 +27,9 @@ public:
     void GameScene::onUndo(Ref* pSender, int lid, std::vector<pii>);
 
     void GameScene::onMouseDown(Event* event);
+
+    void  GameScene::onMouseUp(Event* event);
+
 };
 
 #endif /* defined(__GAME_SCENE_H__) */
