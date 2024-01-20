@@ -57,6 +57,10 @@ bool GameScene::init()
     _listener->onKeyPressed=CC_CALLBACK_2(GameScene::onKeyPressed, this);
     _listener->onKeyReleased = CC_CALLBACK_2(GameScene::onKeyReleased, this);
     _eventDispatcher->addEventListenerWithSceneGraphPriority(_listener, this);
+   
+    mouseListener = EventListenerMouse::create();
+    mouseListener->onMouseScroll = CC_CALLBACK_1(GameScene::onMouseScroll, this);
+    _eventDispatcher->addEventListenerWithSceneGraphPriority(mouseListener, this);
 
     auto levelTitle = Label::createWithTTF("Load Game", "fonts/Marker Felt.ttf", 48);
     levelTitle->setPosition(Vec2(winSize.width / 2,
@@ -103,6 +107,15 @@ void GameScene::onKeyReleased(EventKeyboard::KeyCode keyCode, Event* event)
     else if (keyCode == EventKeyboard::KeyCode::KEY_D) {
         controler::get()->move({ 1, 0 });
         log("go right");
+    }
+}
+void GameScene::onMouseScroll(Event* event)
+{
+    EventMouse* e = dynamic_cast<EventMouse*>(event);
+    if (e)
+    {
+        float deltaY = e->getScrollY();
+        log("Mouse scrolled: %f", deltaY);
     }
 }
 

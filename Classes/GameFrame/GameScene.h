@@ -7,6 +7,7 @@ USING_NS_CC;
 class GameScene : public Layer {
 protected:
     EventListenerKeyboard* _listener;
+    EventListenerMouse* mouseListener;
 public:
     int lid;
     static Scene* scene(int lid);
@@ -18,6 +19,7 @@ void GameScene::onKeyPressed(EventKeyboard::KeyCode keyCode, Event* event);
 
 void GameScene::onKeyReleased(EventKeyboard::KeyCode keyCode, Event* event);
 
+void GameScene::onMouseScroll(Event* event);
 };
 
 #endif /* defined(__GAME_SCENE_H__) */
