@@ -33,6 +33,7 @@ public:
 	};
 	~controler() {};
 	void init(int lid) {
+		MyColor::setseed();
 		this->lid = lid;
 		Panel* panel = Panel::getInstance();
 		panel->levelInit(lid);
@@ -104,6 +105,7 @@ public:
 		Sprite* s = Sprite::create();
 		boxes.push_back(s);
 		s->setPosition(Vec2(winSize.width / 2, winSize.height / 2));
+		s->setColor(big->color);
 		gs->addChild(s);
 		initPanel(s, size / big->size.first,big->size,big->color,big);
 		for (int i = 0; i < big->size.first; i++) {
@@ -128,13 +130,15 @@ public:
 				s = Sprite::create("MainMenu/boxes/default_box.png");
 			s->setPosition(pos);
 			s->setContentSize(Size(size, size));
-			s->setColor(draw->color);
+			
+			s->setColor(father->getColor());
 			father->addChild(s);
 			boxes.push_back(s);
 		}
 		else {
 			Sprite* s = Sprite::create();
 			s->setPosition(pos);
+			s->setColor(draw->color);
 			father->addChild(s);
 			boxes.push_back(s);
 			initPanel(s, size / draw->size.first, draw->size, draw->color,draw);
@@ -231,6 +235,10 @@ public:
 				move(step[i]);
 			}
 		}
+	}
+	void magnify(double a) {
+		size += a;
+		draw(gs, size);
 	}
 };
 #endif

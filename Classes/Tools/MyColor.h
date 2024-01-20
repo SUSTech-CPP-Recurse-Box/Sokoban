@@ -2,16 +2,21 @@
 #define _MY_COLOR_H_
 #include "cocos2d.h"
 #include <cstdlib>
+#include <random>
 USING_NS_CC;
 class MyColor {
 private:
     static int lightColor[10][3];
     static int darkColor[10][3];
+    static int a;
 
 public:
+    static void setseed() {
+        a = 0;
+    }
     static cocos2d::Color3B RandomLight() {
         // 生成一个随机索引
-        int randomIndex = rand() % 10;
+        int randomIndex = a++ % 10;
         // 将颜色转换为 Color3B 类型并返回
         return cocos2d::Color3B(
             lightColor[randomIndex][0],
@@ -20,7 +25,7 @@ public:
     }
     static cocos2d::Color3B RandomDark() {
         // 生成一个随机索引
-        int randomIndex = rand() % 10;
+        int randomIndex = a++ % 10;
         // 将颜色转换为 Color3B 类型并返回
         return cocos2d::Color3B(
             darkColor[randomIndex][0],

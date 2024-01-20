@@ -1,5 +1,6 @@
 #include "MyColor.h"
 // 在实现文件中进行静态成员变量的初始化
+int MyColor::a = 0;
 int MyColor::lightColor[10][3] = {
     {255, 250, 205}, // 柠檬雪纺
     {255, 245, 238}, // 贝壳
