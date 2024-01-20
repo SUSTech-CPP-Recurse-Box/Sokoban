@@ -8,7 +8,8 @@ class GameScene : public Layer {
 protected:
     EventListenerKeyboard* _listener;
 public:
-    static Scene* scene();
+    int lid;
+    static Scene* scene(int lid);
     virtual bool init();
 
     CREATE_FUNC(GameScene);

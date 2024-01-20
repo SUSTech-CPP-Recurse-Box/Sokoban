@@ -6,9 +6,10 @@
 #define DEFAULT_SPACE_SIZE 10
 
 
-Scene* GameScene::scene()
+Scene* GameScene::scene(int lid)
 {
     Scene* scene = Scene::create();
+    //todo:readfile
     GameScene* GameScene = GameScene::create();
     scene->addChild(GameScene);
     return scene;

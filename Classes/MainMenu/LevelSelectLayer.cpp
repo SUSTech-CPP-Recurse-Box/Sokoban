@@ -77,7 +77,7 @@ bool LevelSelectLayer::init()
 void LevelSelectLayer::onLevelSelect(Ref* pSender, int lid)
 {
     CCLOG("Select %d", lid);
-    Scene* scene = GameScene::scene();
+    Scene* scene = GameScene::scene(lid);
     Director::getInstance()->replaceScene(TransitionFade::create(1.2f, scene));
 }
 
