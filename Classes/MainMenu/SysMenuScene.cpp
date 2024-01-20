@@ -63,7 +63,7 @@ bool SysMenuScene::init()
         "MainMenu/start.png", "MainMenu/start.png",
         [&](Ref* sender) {
             Scene* scene = LevelSelectLayer::scene();
-            Director::getInstance()->replaceScene(TransitionFade::create(1.2f, scene));
+            Director::getInstance()->replaceScene(TransitionFade::create(0.2f, scene));
         });
 
 
@@ -75,7 +75,7 @@ bool SysMenuScene::init()
         "MainMenu/resume.png", "MainMenu/resume.png",
         [&](Ref* sender) {
             Scene* scene = LoadLayer::scene();
-            Director::getInstance()->replaceScene(TransitionFade::create(1.2f, scene));
+            Director::getInstance()->replaceScene(TransitionFade::create(0.2f, scene));
         });
 
 

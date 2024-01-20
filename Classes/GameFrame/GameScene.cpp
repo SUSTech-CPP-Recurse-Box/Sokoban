@@ -63,12 +63,12 @@ bool GameScene::init()
     _listener->onKeyPressed = CC_CALLBACK_2(GameScene::onKeyPressed, this);
     _listener->onKeyReleased = CC_CALLBACK_2(GameScene::onKeyReleased, this);
     _eventDispatcher->addEventListenerWithSceneGraphPriority(_listener, this);
-   
+
     mouseListener = EventListenerMouse::create();
     mouseListener->onMouseScroll = CC_CALLBACK_1(GameScene::onMouseScroll, this);
     _eventDispatcher->addEventListenerWithSceneGraphPriority(mouseListener, this);
 
-    auto levelTitle = Label::createWithTTF("Load Game", "fonts/Marker Felt.ttf", 48);
+    auto levelTitle = Label::createWithTTF("Level", "fonts/Marker Felt.ttf", 48);
     levelTitle->setPosition(Vec2(winSize.width / 2,
         winSize.height - levelTitle->getContentSize().height));
 
@@ -78,7 +78,7 @@ bool GameScene::init()
     MenuItemFont::setFontSize(20);
     MenuItemFont::setFontName("Arial");
 
-    Label* saveLabel = Label::createWithTTF("Save Game", "fonts/Marker Felt.ttf", 48);
+    Label* saveLabel = Label::createWithTTF("Save", "fonts/Marker Felt.ttf", 48);
     saveLabel->setColor(Color3B(31, 45, 150));
     MenuItemLabel* saveItem = MenuItemLabel::create(saveLabel,
         [&](Ref* sender) {
@@ -87,18 +87,28 @@ bool GameScene::init()
         });
 
     Menu* saveMenu = Menu::create(saveItem, nullptr);
-    saveMenu->setPosition(Vec2(winSize.width / 2, 96 + 10));
+    saveMenu->setPosition(Vec2(winSize.width / 2 - 300, 48));
     addChild(saveMenu, 1);
+
+    Label* undoLabel = Label::createWithTTF("Undo", "fonts/Marker Felt.ttf", 48);
+    undoLabel->setColor(Color3B(31, 45, 150));
+    MenuItemLabel* undoItem = MenuItemLabel::create(undoLabel,
+        CC_CALLBACK_1(GameScene::onUndo,
+            this, controler::get()->lid, controler::get()->mv)
+    );
+    Menu* undoMenu = Menu::create(undoItem, nullptr);
+    undoMenu->setPosition(Vec2(winSize.width / 2, 48));
+    addChild(undoMenu, 1);
 
     Label* back = Label::createWithTTF("Go back", "fonts/Marker Felt.ttf", 48);
     back->setColor(Color3B(31, 45, 150));
     MenuItemLabel* backMain = MenuItemLabel::create(back,
         [&](Ref* sender) {
             Scene* scene = SysMenuScene::create();
-            Director::getInstance()->replaceScene(TransitionFade::create(1.2f, scene));
+            Director::getInstance()->replaceScene(TransitionFade::create(0.2f, scene));
         });
     Menu* backMenu = Menu::create(backMain, nullptr);
-    backMenu->setPosition(Vec2(winSize.width / 2, 48));
+    backMenu->setPosition(Vec2(winSize.width / 2 + 300, 48));
     addChild(backMenu, 1);
 
     SaveInfo* info = SaveManager::getInstance()->info;
@@ -141,5 +151,14 @@ void GameScene::onMouseScroll(Event* event)
         log("Mouse scrolled: %f", deltaY);
     }
 }
+void GameScene::onUndo(Ref* pSender, int lid, std::vector<pii> steps) {
+    if (SaveManager::getInstance()->info == nullptr) {
+        SaveManager::getInstance()->info = new SaveInfo(lid, steps, "");
+    }
+
+    Scene* scene = GameScene::scene(SaveManager::getInstance()->info->level_id, true);
+    Director::getInstance()->replaceScene(TransitionFade::create(0, scene));
+}
+
 
 
