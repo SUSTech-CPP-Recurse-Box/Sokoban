@@ -4,6 +4,7 @@ ResBox* ResBox::player = nullptr;
 ResBox* ResBox::big = nullptr;
 ResBox* ResBox::inf = nullptr;
 ResBox* ResBox::eps = nullptr;
+ResBox* ResBox::blank = nullptr;
 void ResBox::init() {
 	for (int i = 0; i < RESBOX_MAX_SIZE; i++) {
 		for (int j = 0; j < RESBOX_MAX_SIZE; j++) {
@@ -100,8 +101,24 @@ bool ResBox::processObjects(ResBox* startObject, ResBox* lastFather, ResBox* sta
 
 		if (!(next_x >= 0 && next_x < size.first && next_y >= 0 && next_y < size.second)) {
 			if (!this->father) {
-				valid = 0;
-				break;
+				ResBox*  fathers=blank;
+				if (fathers->type == 1 && !mybox.empty()) {
+					//=====================  我自己，我的父亲，      最开始的父亲，      
+					if (fathers->processObjects(mybox.top(), this, (mybox.size() == 1 && belong != 0) ? startFather : this,
+						//方向，我的位置，            进边界，原始箱子
+						dir, { posx.top(),posy.top() }, belong == -1 ? 2 : 1, first, { posx.top() - dir.first,posy.top() - dir.second }, pos_1, lastFather, inf + 1)) {
+						if (mybox.size() == 1 && son[posx.top() - dir.first][posy.top() - dir.second] != fathers && fathers == first) {
+						}
+						else if (!(belong != 0 && mybox.size() == 1)) {
+							son[posx.top() - dir.first][posy.top() - dir.second] = nullptr;
+						}
+						mybox.pop();
+						posx.pop();
+						posy.pop();
+						valid = 1;
+						break;
+					}
+				}
 			}
 			else {
 				ResBox* fathers = this->father;

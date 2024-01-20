@@ -17,6 +17,7 @@ public:
 	static ResBox* big;
 	static ResBox* inf;
 	static ResBox* eps;
+	static ResBox* blank;
 	std::vector<pii> target_people;
 	std::vector<pii> target_box;
 	int type;//1有内部结构,2无内部结构,3player,4墙

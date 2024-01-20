@@ -70,6 +70,7 @@ public:
 			ResBox::inf = panel->infs[0];
 			boxeslist.push_back(panel->infs[0]);
 		}
+		ResBox::blank = new ResBox(1, { 5,5 });
 		ResBox::big = big;
 		ResBox::player = player;
 		
