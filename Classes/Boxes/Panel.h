@@ -18,9 +18,14 @@ class Panel {
 public:
     static Panel* instance;
     std::vector<Target> targets;
+
     std::vector<ResBox*> boxes;
-    ResBox * initBox;
-    ResBox * player;
+    std::vector<ResBox*> infs;
+    std::vector<ResBox*> epss;
+    
+    ResBox* initBox;
+    ResBox* player;
+
     Panel() {};
     ~Panel() {};
     static Panel* getInstance();
