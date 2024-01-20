@@ -11,6 +11,8 @@ public:
 	ResBox* big;
 	ResBox* player;
 	std::vector<Sprite*> boxes;
+	double size;
+	GameScene* gs;
 	static controler* _instance;
 	static controler* get() {
 		return _instance;
@@ -62,6 +64,8 @@ public:
 		}
 	}
 	void draw(GameScene* gs,double size) {
+		this->gs = gs;
+		this->size = size;
 		Size winSize = Director::getInstance()->getWinSize();
 		Sprite* s = Sprite::create();
 		boxes.push_back(s);
@@ -113,6 +117,10 @@ public:
 				}
 			}
 		}
+	}
+	void move(pii dir) {
+		player->father->processObjects(player, dir, player->pos, 0);
+		draw(gs, size);
 	}
 };
 #endif

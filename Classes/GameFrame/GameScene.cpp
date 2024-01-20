@@ -86,18 +86,18 @@ void GameScene::onKeyReleased(EventKeyboard::KeyCode keyCode, Event* event)
 {
     log("Key with keycode %d released", keyCode);
     if (keyCode == EventKeyboard::KeyCode::KEY_W) {
-        Box::player->father->processObjects(Box::player, 0, 1,true);
+        controler::get()->move({ 0, 1 });
         log("go up");
     }else if (keyCode == EventKeyboard::KeyCode::KEY_S) {
-        Box::player->father->processObjects(Box::player, 0, -1, true);
+        controler::get()->move({ 0, -1 });
         log("go down");
     }
     else if (keyCode == EventKeyboard::KeyCode::KEY_A) {
-        Box::player->father->processObjects(Box::player, -1,0, true);
+        controler::get()->move({ -1,0 });
         log("go left");
     }
     else if (keyCode == EventKeyboard::KeyCode::KEY_D) {
-        Box::player->father->processObjects(Box::player, 1, 0, true);
+        controler::get()->move({ 1, 0 });
         log("go right");
     }
 }
