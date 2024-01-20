@@ -66,7 +66,12 @@ bool GameScene::init()
 
     mouseListener = EventListenerMouse::create();
     mouseListener->onMouseScroll = CC_CALLBACK_1(GameScene::onMouseScroll, this);
+    mouseListener->onMouseDown = CC_CALLBACK_1(GameScene::onMouseDown, this);
     _eventDispatcher->addEventListenerWithSceneGraphPriority(mouseListener, this);
+
+
+
+
 
     auto levelTitle = Label::createWithTTF("Level", "fonts/Marker Felt.ttf", 48);
     levelTitle->setPosition(Vec2(winSize.width / 2,
@@ -160,5 +165,24 @@ void GameScene::onUndo(Ref* pSender, int lid, std::vector<pii> steps) {
     Director::getInstance()->replaceScene(TransitionFade::create(0, scene));
 }
 
-
+void GameScene::onMouseDown(Event* event)
+{
+    EventMouse* e = dynamic_cast<EventMouse*>(event);
+    if (e)
+    {
+     
+        EventMouse::MouseButton button = e->getMouseButton();
+        switch (button)
+        {
+        case EventMouse::MouseButton::BUTTON_LEFT:
+            log("Left mouse button pressed");
+            break;
+        case EventMouse::MouseButton::BUTTON_RIGHT:
+            log("Right mouse button pressed");
+            break;
+        default:
+            break;
+        }
+    }
+}
 
