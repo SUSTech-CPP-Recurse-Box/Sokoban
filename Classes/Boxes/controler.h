@@ -46,13 +46,27 @@ public:
 		boxes.clear();
 		boxeslist.clear();
 		//===============================
-		big = panel->boxes[0];
 		player = panel->player;
+
+		if (player->father) {
+			if (player->father->father) {
+				big = player->father->father;
+			}
+			else {
+				big = player->father;
+			}
+		}
+		else {
+			big = panel->boxes[0];
+		}
+
+		
 		ResBox::big = big;
 		ResBox::player = player;
 		for (int i = 0; i < panel->boxes.size(); i++) {
 			boxeslist.push_back(panel->boxes[i]);
 		}
+		
 		
 		//====================
 		//big = new ResBox(1, {4,4});
@@ -112,6 +126,11 @@ public:
 		s->setPosition(Vec2(winSize.width / 2, winSize.height / 2));
 		s->setColor(big->color);
 		gs->addChild(s);
+		Sprite* board = Sprite::create("MainMenu/boxes/around.png");
+		board->setPosition(Vec2(0, 0));
+		board->setContentSize(Size(size*1.02 , size * 1.02));
+		board->setColor(big->color);
+		s->addChild(board);
 		initPanel(s, size / big->size.first,big->size,big->color,big);
 		for (int i = 0; i < big->size.first; i++) {
 			for (int j = 0; j < big->size.second; j++) {
@@ -146,6 +165,11 @@ public:
 			s->setColor(draw->color);
 			father->addChild(s);
 			boxes.push_back(s);
+			Sprite* board = Sprite::create("MainMenu/boxes/around.png");
+			board->setPosition(Vec2(0, 0));
+			board->setContentSize(Size(size * 1.02, size * 1.02));
+			board->setColor(draw->color);
+			s->addChild(board);
 			initPanel(s, size / draw->size.first, draw->size, draw->color,draw);
 			if (size < 0.1) {
 				return;
