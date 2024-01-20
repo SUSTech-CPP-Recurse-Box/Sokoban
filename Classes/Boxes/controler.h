@@ -153,7 +153,7 @@ public:
 		int s = 1;
 		for (int i = 0; i < boxeslist.size(); i++) {
 			for (int j = 0; j < boxeslist[i]->target_box.size(); j++) {
-				pii p = boxeslist[i]->target_box[i];
+				pii p = boxeslist[i]->target_box[j];
 				if (!boxeslist[i]->son[p.first][p.second]) {
 					s = 0;
 					break;
@@ -200,6 +200,13 @@ public:
 	void move(pii dir) {
 		if (!suc) {
 			player->father->processObjects(player,player->father, dir, player->pos, 0, player);
+			//if (big != player->father) {
+				big = player->father;
+				if (player->father->father) {
+					big = player->father->father;
+				}
+			//}
+			
 			draw(gs, size);
 			mv.push_back(dir);
 			success();
