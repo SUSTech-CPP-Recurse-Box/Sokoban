@@ -245,5 +245,17 @@ public:
 		size += a;
 		draw(gs, size);
 	}
+
+	//bool processObject(ResBox* cur, pii dir) {
+	//	ResBox* curFather = cur->father;
+	//	if (cur->father == nullptr) {
+	//		return false;
+	//	}
+
+	//	if (cur->pos.first == 0) {
+
+	//	}
+	//}
+
 };
 #endif

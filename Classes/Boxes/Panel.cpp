@@ -19,6 +19,8 @@ bool Panel::levelInit(int id)
 {
     this->targets.clear();
     this->boxes.clear();
+    this->infs.clear();
+    this->epss.clear();
 
     rapidjson::Document readdoc;
     // getFileData 如果不指定，读取根目录是 Resource 文件夹
@@ -34,25 +36,6 @@ bool Panel::levelInit(int id)
     {
         return false;
     }
-
-    //if (!readdoc.IsObject() || !readdoc.HasMember("boxNu") || !readdoc.HasMember("actions") || !readdoc.HasMember("time")) {
-    //    return false;
-    //}
-
-    //rapidjson::Value& targets = readdoc["targets"];
-
-    //if (targets.IsArray())
-    //{
-    //    for (int i = 0; i < targets.Size(); i++)
-    //    {
-    //        rapidjson::Value& tar = targets[i];
-    //        int boxId = targets[i]["boxId"].GetInt();
-    //        int x = targets[i]["pos_x"].GetInt();
-    //        int y = targets[i]["pos_y"].GetInt();
-    //        int type = targets[i]["type"].GetInt();
-    //        this->targets.emplace_back(type, boxId, x, y);
-    //    }
-    //}
 
     rapidjson::Value& boxInfoJson = readdoc["boxInfo"];
     for (int i = 0; i < boxInfoJson.Size(); i++) {
@@ -123,11 +106,36 @@ bool Panel::levelInit(int id)
                         this->player = smallBox;
                         curBox->setTarget({ x,y }, 2);
                     }
-                    if(smallBox != nullptr){
-                        curBox->addBox(smallBox, { x, y }, true); 
+                    if (smallBox != nullptr) {
+                        curBox->addBox(smallBox, { x, y }, true);
                     }
                 }
             }
+        }
+    }
+
+    int startId = -1;
+    for (int i = 0; i < boxInfoJson.Size(); i++) {
+        rapidjson::Value& curInfoJson = boxInfoJson[i];
+        if (curInfoJson.HasMember("special")) {
+            if (startId < 0) {
+                startId = i;
+            }
+            std::string type = curInfoJson["special"].GetString();
+            if (type == "inf") {
+                infs.push_back(boxes[i]);
+            }
+            else if (type == "eps") {
+                epss.push_back(boxes[i]);
+            }
+        }
+    }
+
+
+    if (startId >= 0) {
+        int box_sz = boxes.size();
+        for (int id = startId; id < box_sz; ++id) {
+            boxes.pop_back();
         }
     }
 
