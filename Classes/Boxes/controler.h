@@ -199,5 +199,14 @@ public:
 			success();
 		}
 	}
+	void load(std::vector<pii> step) {
+		for (int i = 0; i < step.size(); i++) {
+			move(step[i]);
+		}
+	}
+	void reload(int lid, std::vector<pii> step) {
+		init(lid);
+		load(step);
+	}
 };
 #endif
