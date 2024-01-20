@@ -154,16 +154,21 @@ public:
 		if (draw->type == 2|| draw->type == 3|| draw->type == 4) {
 
 			Sprite* s;
-			if(draw->type == 4)
-				s= Sprite::create("MainMenu/boxes/boundary.png");
-			else if(draw->type==3)
+			if (draw->type == 4) {
+				s = Sprite::create("MainMenu/boxes/boundary.png");
+				s->setColor(father->getColor());
+			}
+			else if (draw->type == 3) {
 				s = Sprite::create("MainMenu/boxes/player.png");
-			else
+				s->setColor(Color3B(255, 165, 0));
+
+			}
+			else {
 				s = Sprite::create("MainMenu/boxes/default_box.png");
+				s->setColor(Color3B(127, 255, 212));
+			}
 			s->setPosition(pos);
 			s->setContentSize(Size(size, size));
-			
-			s->setColor(father->getColor());
 			father->addChild(s);
 			boxes.push_back(s);
 		}

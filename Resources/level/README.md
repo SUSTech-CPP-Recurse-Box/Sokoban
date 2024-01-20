@@ -5,9 +5,9 @@ Level 2: **Internal Structures**
 
 Level 3: **Recursive Box1**(If go out of box A to B and find that the target point is a box C that cannot be moved, you should directly slides from A into C with the round position)
 
-Level 4: **Multiple reference**
+Level 4: the same as Level 3
 
-Level 5: the same as Level 3
+Level 5: **Multiple reference**
 
 Level 6: **Greedy Snake**
 
@@ -17,7 +17,7 @@ Level 8: **Recursion Overflow Out**
 
 Level 10: ???
 
-Level 11: **Implementation of Basic** **Sokuban** **Rules**
+Level 9: **Implementation of Basic** **Sokuban** **Rules**
 
  
 
