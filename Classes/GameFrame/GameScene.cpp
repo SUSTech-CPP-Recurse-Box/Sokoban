@@ -29,6 +29,7 @@ bool GameScene::init()
 
     auto backGround = Sprite::create("MainMenu/MainBG.png");
     backGround->setPosition(Vec2(winSize.width / 2, winSize.height / 2));
+    log("x:%lf;y:%lf", winSize.width / 2, winSize.height / 2);
     addChild(backGround, 0);
     controler::get()->init();
     controler::get()->draw(this, 200);
