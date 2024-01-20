@@ -59,13 +59,20 @@ public:
 		else {
 			big = panel->boxes[0];
 		}
-
-		
-		ResBox::big = big;
-		ResBox::player = player;
 		for (int i = 0; i < panel->boxes.size(); i++) {
 			boxeslist.push_back(panel->boxes[i]);
 		}
+		if (!panel->epss.empty()) {
+			ResBox::eps = panel->epss[0];
+			boxeslist.push_back(panel->epss[0]);
+		}
+		if (!panel->infs.empty()) {
+			ResBox::inf = panel->infs[0];
+			boxeslist.push_back(panel->infs[0]);
+		}
+		ResBox::big = big;
+		ResBox::player = player;
+		
 		
 		
 		//====================

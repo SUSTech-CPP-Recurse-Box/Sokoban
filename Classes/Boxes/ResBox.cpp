@@ -19,8 +19,7 @@ ResBox::ResBox(int type, pii size) :
 }
 //belong 1:进-1出0正常2上一个是出来，之后直接进入                                                                                            上一个  上两个
 bool ResBox::processObjects(ResBox* startObject, ResBox* lastFather, ResBox* startFather, pii dir, pii pos, int belong, ResBox* first, pii pos_1, pii pos_2, ResBox* llFather, int inf) {
-	if (inf > 10 && inf < -10) {
-		
+	if (inf == 10 || inf == -10) {
 		int next_x, next_y;
 		if (dir.first != 0) {
 			next_y = 3;
@@ -31,15 +30,26 @@ bool ResBox::processObjects(ResBox* startObject, ResBox* lastFather, ResBox* sta
 			next_y = dir.second > 0 ? 0 : 4;
 		}
 		pii pos_f = { next_x ,next_y };
-		if (inf < -10) {
-			if (ResBox::eps->processObjects(startObject, lastFather, startFather, dir, pos, 1, first, pos_1, pos_2, llFather, inf)) {
-
+		if (inf ==10) {
+			if (ResBox::eps->processObjects(startObject, lastFather, startFather, dir, pos, 1, first, pos_1, pos_2, llFather, 11)) {
+				log("111111");
 				return true;
 			}
+			else {
+				log("222222");
+
+				return false;
+			}
 		}
-		if (inf < -10) {
-			if (ResBox::inf->processObjects(startObject, lastFather, startFather, dir, pos, 1, first, pos_1, pos_2, llFather, inf)) {
+		if (inf == -10) {
+			if (ResBox::inf->processObjects(startObject, lastFather, startFather, dir, pos, 1, first, pos_1, pos_2, llFather, 11)) {
+				log("111111");
 				return true;
+			}
+			else {
+				log("222222");
+
+				return false;
 			}
 		}
 	}
