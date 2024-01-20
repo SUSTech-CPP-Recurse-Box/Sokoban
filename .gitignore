@@ -8,3 +8,7 @@ out/
 So/
 Classes/Temp
 Classes/Test
+
+
+*.zip
+*.7z
