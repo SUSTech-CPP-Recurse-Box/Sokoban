@@ -32,7 +32,7 @@ bool ResBox::processObjects(ResBox* startObject, ResBox* lastFather, pii dir, pi
 		next_y = pos.second + dir.second;
 	}
 	else if(belong == 1){
-		if (pos.first != 0) {
+		if (dir.first != 0) {
 			next_y = size.second - size.second / 2 - 1;
 			next_x = dir.first > 0 ? 0 : size.first - 1;
 		}
