@@ -155,7 +155,7 @@ void GameScene::onMouseScroll(Event* event)
     if (e)
     {
         float deltaY = e->getScrollY();
-        controler::get()->magnify(deltaY*10);
+        controler::get()->magnify(-deltaY*10);
         log("Mouse scrolled: %f", deltaY);
     }
 }
