@@ -24,11 +24,13 @@ public:
 		big = new ResBox(1, {4,4});
 		ResBox* b = new ResBox(1, { 2,2 });
 		player = new ResBox(3, { 0,0 });
+		big->setTarget({ 1,1 }, 1);
+		big->setTarget({ 2,1 }, 2);
 		big->addBox(player, { 2,3 }, true);
 		big->addBox(b, { 0,0 }, true);
 		big->addBox(big, { 1,0 }, false);
 	}
-	void initPanel(Sprite* fa, double size,pii s,Color3B color) {
+	void initPanel(Sprite* fa, double size,pii s,Color3B color,ResBox* rb) {
 		for (int i = 0; i < s.first; i++) {
 			for (int j = 0; j < s.second; j++) {
 				Sprite* sp = Sprite::create("MainMenu/boxes/panel.png");
@@ -40,6 +42,24 @@ public:
 				boxes.push_back(sp);
 			}
 		}
+		for (int i = 0; i < rb->target_box.size(); i++) {
+			Sprite* sp = Sprite::create("MainMenu/boxes/target_box.png");
+			sp->setColor(color);
+			sp->setContentSize(Size(size, size));
+			sp->setPosition(Vec2((2 * rb->target_box[i].first - s.first + 1) * size / 2, -(s.second - 2 * rb->target_box[i].second - 1) * size / 2));
+			log("x:%lf;y:%lf", (2 * rb->target_box[i].first - s.first + 1) * size, -(s.second - 2 * rb->target_box[i].second - 1) * size);
+			fa->addChild(sp);
+			boxes.push_back(sp);
+		}
+		for (int i = 0; i < rb->target_people.size(); i++) {
+			Sprite* sp = Sprite::create("MainMenu/boxes/traget_player.png");
+			sp->setColor(color);
+			sp->setContentSize(Size(size, size));
+			sp->setPosition(Vec2((2 * rb->target_people[i].first - s.first + 1) * size / 2, -(s.second - 2 * rb->target_people[i].second - 1) * size / 2));
+			log("x:%lf;y:%lf", (2 * rb->target_people[i].first - s.first + 1) * size, -(s.second - 2 * rb->target_people[i].second - 1) * size);
+			fa->addChild(sp);
+			boxes.push_back(sp);
+		}
 	}
 	void draw(GameScene* gs,double size) {
 		Size winSize = Director::getInstance()->getWinSize();
@@ -47,7 +67,7 @@ public:
 		boxes.push_back(s);
 		s->setPosition(Vec2(winSize.width / 2, winSize.height / 2));
 		gs->addChild(s);
-		initPanel(s, size / big->size.first,big->size,big->color);
+		initPanel(s, size / big->size.first,big->size,big->color,big);
 		for (int i = 0; i < big->size.first; i++) {
 			for (int j = 0; j < big->size.second; j++) {
 				if (big->son[i][j]) {//绘图需要：颜色：来自物体，大小：来自父亲，传入，位置：来自父亲
@@ -64,6 +84,8 @@ public:
 			Sprite* s;
 			if(draw->type == 4)
 				s= Sprite::create("MainMenu/boxes/boundary.png");
+			else if(draw->type==3)
+				s = Sprite::create("MainMenu/boxes/player.png");
 			else
 				s = Sprite::create("MainMenu/boxes/default_box.png");
 			s->setPosition(pos);
@@ -77,7 +99,7 @@ public:
 			s->setPosition(pos);
 			father->addChild(s);
 			boxes.push_back(s);
-			initPanel(s, size / draw->size.first, draw->size, draw->color);
+			initPanel(s, size / draw->size.first, draw->size, draw->color,draw);
 			if (size < 0.1) {
 				return;
 			}
