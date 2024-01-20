@@ -15,6 +15,8 @@ class ResBox {
 public:
 	static ResBox* player;
 	static ResBox* big;
+	static ResBox* inf;
+	static ResBox* eps;
 	std::vector<pii> target_people;
 	std::vector<pii> target_box;
 	int type;//1有内部结构,2无内部结构,3player,4墙
@@ -41,6 +43,6 @@ public:
 		}
 	}
 	//belong 1:进-1出0正常
-	bool processObjects(ResBox* startObject, ResBox* lastFather, ResBox* startFather, pii dir, pii pos, int belong, ResBox* first, pii pos_1, pii pos_2, ResBox* llFather);
+	bool processObjects(ResBox* startObject, ResBox* lastFather, ResBox* startFather, pii dir, pii pos, int belong, ResBox* first, pii pos_1, pii pos_2, ResBox* llFather, int inf);
 };
 #endif

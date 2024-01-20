@@ -99,6 +99,11 @@ public:
 		}
 	}
 	void draw(GameScene* gs,double size) {
+		if (boxes.size() != 0) {
+			boxes[0]->removeAllChildren();
+			boxes[0]->removeFromParent();
+			boxes.clear();
+		}
 		this->gs = gs;
 		this->size = size;
 		Size winSize = Director::getInstance()->getWinSize();
@@ -206,7 +211,7 @@ public:
 	}
 	void move(pii dir) {
 		if (!suc) {
-			player->father->processObjects(player, player->father, player->father, dir, player->pos, 0, player, player->pos, {1,1},nullptr);
+			player->father->processObjects(player, player->father, player->father, dir, player->pos, 0, player, player->pos, {1,1},nullptr,0);
 			//if (big != player->father) {
 				big = player->father;
 				if (player->father->father) {

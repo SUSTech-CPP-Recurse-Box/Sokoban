@@ -2,7 +2,8 @@
 #include <cmath>
 ResBox* ResBox::player = nullptr;
 ResBox* ResBox::big = nullptr;
-
+ResBox* ResBox::inf = nullptr;
+ResBox* ResBox::eps = nullptr;
 void ResBox::init() {
 	for (int i = 0; i < RESBOX_MAX_SIZE; i++) {
 		for (int j = 0; j < RESBOX_MAX_SIZE; j++) {
@@ -17,9 +18,34 @@ ResBox::ResBox(int type, pii size) :
 	init();
 }
 //belong 1:进-1出0正常2上一个是出来，之后直接进入                                                                                            上一个  上两个
-bool ResBox::processObjects(ResBox* startObject, ResBox* lastFather, ResBox* startFather, pii dir, pii pos, int belong, ResBox* first,pii pos_1, pii pos_2, ResBox* llFather) {
+bool ResBox::processObjects(ResBox* startObject, ResBox* lastFather, ResBox* startFather, pii dir, pii pos, int belong, ResBox* first, pii pos_1, pii pos_2, ResBox* llFather, int inf) {
+	if (inf > 10 && inf < -10) {
+		
+		int next_x, next_y;
+		if (dir.first != 0) {
+			next_y = 3;
+			next_x = dir.first > 0 ? 0 : 4;
+		}
+		else {
+			next_x = 3;
+			next_y = dir.second > 0 ? 0 : 4;
+		}
+		pii pos_f = { next_x ,next_y };
+		if (inf < -10) {
+			if (ResBox::eps->processObjects(startObject, lastFather, startFather, dir, pos, 1, first, pos_1, pos_2, llFather, inf)) {
+
+				return true;
+			}
+		}
+		if (inf < -10) {
+			if (ResBox::inf->processObjects(startObject, lastFather, startFather, dir, pos, 1, first, pos_1, pos_2, llFather, inf)) {
+				return true;
+			}
+		}
+	}
+
 	int valid = 1;
-	
+
 	std::stack<ResBox*> mybox;
 	std::stack<int> posx;
 	std::stack<int> posy;
@@ -44,7 +70,7 @@ bool ResBox::processObjects(ResBox* startObject, ResBox* lastFather, ResBox* sta
 	}
 	else if (belong == 2) {//上一个是出来，之后直接进入
 		if (dir.first != 0) {
-			next_y = std::round((double)pos_2.second* size.second/llFather->size.second);
+			next_y = std::round((double)pos_2.second * size.second / llFather->size.second);
 			next_x = dir.first > 0 ? 0 : size.first - 1;
 		}
 		else {
@@ -61,6 +87,7 @@ bool ResBox::processObjects(ResBox* startObject, ResBox* lastFather, ResBox* sta
 	posy.push(next_y);
 	while (true)
 	{
+
 		if (!(next_x >= 0 && next_x < size.first && next_y >= 0 && next_y < size.second)) {
 			if (!this->father) {
 				valid = 0;
@@ -71,7 +98,7 @@ bool ResBox::processObjects(ResBox* startObject, ResBox* lastFather, ResBox* sta
 				//=========================  我自己，这一个父亲，第一个父亲，
 				if (fathers->processObjects(mybox.top(), this, (mybox.size() == 1 && belong != 0) ? startFather : this,
 					// 方向，父亲的位置，         出边界，原始箱子,我的位置
-					dir, { posx.top(),posy.top() }, -1, first, { posx.top() - dir.first,posy.top() - dir.second },pos_1, lastFather)) {
+					dir, { posx.top(),posy.top() }, -1, first, { posx.top() - dir.first,posy.top() - dir.second }, pos_1, lastFather, inf - 1)) {
 					if (mybox.size() == 1 && son[posx.top() - dir.first][posy.top() - dir.second] != mybox.top() && mybox.top() == first) {
 					}
 					else {
@@ -86,7 +113,7 @@ bool ResBox::processObjects(ResBox* startObject, ResBox* lastFather, ResBox* sta
 			}
 
 		}
-		if (!son[next_x][next_y]||son[next_x][next_y]==first) {//空
+		if (!son[next_x][next_y] || son[next_x][next_y] == first) {//空
 			break;
 		}
 		if (son[next_x][next_y]->type == 4) {
@@ -108,13 +135,14 @@ bool ResBox::processObjects(ResBox* startObject, ResBox* lastFather, ResBox* sta
 			mybox.pop();
 			posx.pop();
 			posy.pop();
-			if (nd->type == 1&& !mybox.empty()) {
+			if (nd->type == 1 && !mybox.empty()) {
 				//=====================  我自己，我的父亲，      最开始的父亲，      
 				if (nd->processObjects(mybox.top(), this, (mybox.size() == 1 && belong != 0) ? startFather : this,
 					//方向，我的位置，            进边界，原始箱子
-					dir, { posx.top(),posy.top() }, belong==-1?2:1, first, { posx.top() - dir.first,posy.top() - dir.second },pos_1, lastFather)) {
+					dir, { posx.top(),posy.top() }, belong == -1 ? 2 : 1, first, { posx.top() - dir.first,posy.top() - dir.second }, pos_1, lastFather, inf + 1)) {
 					if (mybox.size() == 1 && son[posx.top() - dir.first][posy.top() - dir.second] != nd && nd == first) {
-					}else if (!(belong != 0 && mybox.size() == 1)) {
+					}
+					else if (!(belong != 0 && mybox.size() == 1)) {
 						son[posx.top() - dir.first][posy.top() - dir.second] = nullptr;
 					}
 					mybox.pop();
@@ -138,7 +166,7 @@ bool ResBox::processObjects(ResBox* startObject, ResBox* lastFather, ResBox* sta
 					nd->father = this;
 				}
 			}
-			else if (mybox.size() == 1&& son[posx.top() - dir.first][posy.top() - dir.second]!=nd&&nd== first) {
+			else if (mybox.size() == 1 && son[posx.top() - dir.first][posy.top() - dir.second] != nd && nd == first) {
 				nd->pos = { posx.top(),posy.top() };
 				son[posx.top()][posy.top()] = nd;
 			}
