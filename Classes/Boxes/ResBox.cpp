@@ -5,7 +5,7 @@ void ResBox::init() {
 			son[i][j] = nullptr;
 		}
 	}
-	trueFather = nullptr;
+	father = nullptr;
 }
 ResBox::ResBox(int type, pii size) :
 	type(type), size(size)
