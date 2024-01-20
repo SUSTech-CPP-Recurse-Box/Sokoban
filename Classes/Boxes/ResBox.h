@@ -38,7 +38,7 @@ public:
 			sonBox->pos = posi;
 		}
 	}
-	bool processObjects(ResBox* startObject, pii dir, pii pos, int belong) {
+	bool processObjects(ResBox* startObject, pii dir, pii pos, int belong,ResBox* first) {
 		int valid = 1;
 		std::stack<ResBox*> mybox;
 		std::stack<int> posx;
@@ -69,7 +69,7 @@ public:
 		while (true)
 		{
 			if (!(next_x >= 0 && next_x < size.first && next_y >= 0 && next_y < size.second)) {
-				valid = 0;//todo:出边界
+				valid = -1;//todo:出边界
 				break;
 			}
 			if (!son[next_x][next_y]) {//空
@@ -87,8 +87,19 @@ public:
 		posx.push(next_x);
 		posy.push(next_y);
 		}
+		if (valid == 0) {
+			while (!mybox.empty())
+			{
+				ResBox* nd = mybox.top();
+				mybox.pop();
+				posx.pop();
+				posy.pop();
+				if (nd->type == 1) {
 
-		if (valid) {
+				}
+			}
+		}
+		if (valid==1) {
 			while (!mybox.empty()) {
 				long next_x,next_y;
 				ResBox* nd = mybox.top();
