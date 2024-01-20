@@ -8,7 +8,7 @@ void ResBox::init() {
 	father = nullptr;
 }
 ResBox::ResBox(int type, pii size) :
-	type(type), size(size)
+	type(type), size(size),color(Color3B(100,100,100))
 {
 	init();
 }

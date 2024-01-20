@@ -2,6 +2,7 @@
 #include "../Boxes/Box.h"
 #include "../Boxes/BoxCollection.h"
 #include "../MainMenu/SysMenuScene.h"
+#include "../Boxes/controler.h"
 #define DEFAULT_SPACE_SIZE 10
 
 
@@ -23,26 +24,29 @@ bool GameScene::init()
     {
         return false;
     }
+    
     Size winSize = Director::getInstance()->getWinSize();
 
     auto backGround = Sprite::create("MainMenu/MainBG.png");
     backGround->setPosition(Vec2(winSize.width / 2, winSize.height / 2));
     addChild(backGround, 0);
+    controler::get()->init();
+    controler::get()->draw(this, 200);
     //====================================================================
-    auto defaultBox = BoxCollection::create(5, 5, this,winSize.height/2);
-    defaultBox->setPosition(Vec2(winSize.width / 2, winSize.height / 2));
-    this->addChild(defaultBox);
-    log("default panel boxSize: %f", defaultBox->boxSize);
-    auto player = Box::create();
-    auto b1 = Box::createBundary();
-    player->set_to_player(player);
-    defaultBox->addBox(player,0,3,true,true);
-    defaultBox->addBox(player, 3, 2, false, true);
-    auto smallBox = BoxCollection::create(5, 5, this, winSize.height / 2);
-    smallBox=defaultBox->addCollection(smallBox, 2, 4,true);
-    smallBox->addBox(b1, 2, 0, false, true);
+    //auto defaultBox = BoxCollection::create(5, 5, this,winSize.height/2);
+    //defaultBox->setPosition(Vec2(winSize.width / 2, winSize.height / 2));
+    //this->addChild(defaultBox);
+    //log("default panel boxSize: %f", defaultBox->boxSize);
+    //auto player = Box::create();
+    //auto b1 = Box::createBundary();
+    //player->set_to_player(player);
+    //defaultBox->addBox(player,0,3,true,true);
+    //defaultBox->addBox(player, 3, 2, false, true);
+    //auto smallBox = BoxCollection::create(5, 5, this, winSize.height / 2);
+    //smallBox=defaultBox->addCollection(smallBox, 2, 4,true);
+    //smallBox->addBox(b1, 2, 0, false, true);
 
-    log("smallBox panel boxSize: %f", smallBox->boxSize);
+    //log("smallBox panel boxSize: %f", smallBox->boxSize);
     //=====================================================================
     _listener = EventListenerKeyboard::create();
     _listener->onKeyPressed=CC_CALLBACK_2(GameScene::onKeyPressed, this);

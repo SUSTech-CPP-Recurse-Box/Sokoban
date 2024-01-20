@@ -8,11 +8,12 @@ USING_NS_CC;
 using pii = std::pair<int, int>;
 class ResBox {
 public:
-	int type;
+	int type;//1有内部结构,2无内部结构,3player,4墙
 	ResBox* son[MAX_SIZE][MAX_SIZE];
 	ResBox* father;//真父亲指针
 	pii pos;//在真父亲内部所在的位置
 	pii size;//盒子大小,初始化
+	Color3B color;
 	ResBox(int type, pii size);
 	void init();
 	void addBox(ResBox* sonBox, pii posi,bool is_true) {
