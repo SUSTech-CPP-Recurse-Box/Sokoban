@@ -42,6 +42,7 @@ public:
 		//===============================
 		big = panel->boxes[0];
 		player = panel->player;
+		ResBox::big = big;
 		ResBox::player = player;
 		for (int i = 0; i < panel->boxes.size(); i++) {
 			boxeslist.push_back(panel->boxes[i]);
@@ -196,7 +197,7 @@ public:
 	}
 	void move(pii dir) {
 		if (!suc) {
-			player->father->processObjects(player, dir, player->pos, 0, player);
+			player->father->processObjects(player,player->father, dir, player->pos, 0, player);
 			draw(gs, size);
 			mv.push_back(dir);
 			success();

@@ -1,6 +1,7 @@
 #include "ResBox.h"
 
 ResBox* ResBox::player = nullptr;
+ResBox* ResBox::big = nullptr;
 
 void ResBox::init() {
 	for (int i = 0; i < RESBOX_MAX_SIZE; i++) {
@@ -16,7 +17,7 @@ ResBox::ResBox(int type, pii size) :
 	init();
 }
 //belong 1:进-1出0正常
-bool ResBox::processObjects(ResBox* startObject, pii dir, pii pos, int belong, ResBox* first) {
+bool ResBox::processObjects(ResBox* startObject, ResBox* lastFather, pii dir, pii pos, int belong, ResBox* first) {
 	int valid = 1;
 	std::stack<ResBox*> mybox;
 	std::stack<int> posx;
@@ -29,9 +30,8 @@ bool ResBox::processObjects(ResBox* startObject, pii dir, pii pos, int belong, R
 	if (belong == 0) {
 		next_x = pos.first + dir.first;
 		next_y = pos.second + dir.second;
-
 	}
-	else {
+	else if(belong == 1){
 		if (pos.first != 0) {
 			next_y = size.second - size.second / 2 - 1;
 			next_x = dir.first > 0 ? 0 : size.first - 1;
@@ -43,13 +43,32 @@ bool ResBox::processObjects(ResBox* startObject, pii dir, pii pos, int belong, R
 		org_x = next_x;
 		org_y = next_y;
 	}
+	else if (belong == -1) {
+		next_x = startObject->father->pos.first+dir.first;
+		next_y = startObject->father->pos.second+dir.second;
+
+	}
 	posx.push(next_x);
 	posy.push(next_y);
 	while (true)
 	{
 		if (!(next_x >= 0 && next_x < size.first && next_y >= 0 && next_y < size.second)) {
-			valid = -1;//todo:出边界
-			break;
+			if (!this->father) {
+				valid = 0;//todo:出边界
+				break;
+			}
+			else{
+				ResBox* fathers = this->father;
+				if (fathers->processObjects(mybox.top(),this, dir, this->pos, -1, first)) {
+					son[posx.top() - dir.first][posy.top() - dir.second] = nullptr;
+					mybox.pop();
+					posx.pop();
+					posy.pop();
+					valid = 1;
+					break;
+				}
+			}
+			
 		}
 		if (!son[next_x][next_y]) {//空
 			break;
@@ -74,7 +93,7 @@ bool ResBox::processObjects(ResBox* startObject, pii dir, pii pos, int belong, R
 			posx.pop();
 			posy.pop();
 			if (nd->type == 1) {
-				if (nd->processObjects(mybox.top(), dir, { posx.top(),posy.top() }, 1, first)) {
+				if (nd->processObjects(mybox.top(), this,dir, { posx.top(),posy.top() }, 1, first)) {
 					son[posx.top() - dir.first][posy.top() - dir.second] = nullptr;
 					mybox.pop();
 					posx.pop();
@@ -90,10 +109,10 @@ bool ResBox::processObjects(ResBox* startObject, pii dir, pii pos, int belong, R
 			long next_x, next_y;
 			ResBox* nd = mybox.top();
 
-			if (mybox.size() == 1 && belong) {
+			if (mybox.size() == 1 && belong!=0) {
 				son[posx.top()][posy.top()] = nd;
 				nd->pos = { posx.top(),posy.top() };
-				if (nd ==player) {
+				if (nd->father==lastFather) {
 					nd->father = this;
 				}
 			}

@@ -14,6 +14,7 @@ using pii = std::pair<int, int>;
 class ResBox {
 public:
 	static ResBox* player;
+	static ResBox* big;
 	std::vector<pii> target_people;
 	std::vector<pii> target_box;
 	int type;//1有内部结构,2无内部结构,3player,4墙
@@ -40,6 +41,6 @@ public:
 		}
 	}
 	//belong 1:进-1出0正常
-	bool processObjects(ResBox* startObject, pii dir, pii pos, int belong, ResBox* first);
+	bool processObjects(ResBox* startObject, ResBox* lastFather, pii dir, pii pos, int belong, ResBox* first);
 };
 #endif
