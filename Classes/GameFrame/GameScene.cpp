@@ -66,7 +66,14 @@ bool GameScene::init()
 
     mouseListener = EventListenerMouse::create();
     mouseListener->onMouseScroll = CC_CALLBACK_1(GameScene::onMouseScroll, this);
+    mouseListener->onMouseDown = CC_CALLBACK_1(GameScene::onMouseDown, this);
+    mouseListener->onMouseUp = CC_CALLBACK_1(GameScene::onMouseUp, this);
+
     _eventDispatcher->addEventListenerWithSceneGraphPriority(mouseListener, this);
+
+
+
+
 
     auto levelTitle = Label::createWithTTF("Level", "fonts/Marker Felt.ttf", 48);
     levelTitle->setPosition(Vec2(winSize.width / 2,
@@ -161,5 +168,29 @@ void GameScene::onUndo(Ref* pSender, int lid, std::vector<pii> steps) {
     Director::getInstance()->replaceScene(TransitionFade::create(0, scene));
 }
 
+void  GameScene::onMouseDown(Event* event)
+{
+    EventMouse* e = dynamic_cast<EventMouse*>(event);
+    if (e)
+    {
+ 
+        startPos = Vec2(e->getCursorX(), e->getCursorY());
+
+        log("Mouse button pressed at (%.2f, %.2f)", startPos.x, startPos.y);
+    }
+}
+
+void  GameScene::onMouseUp(Event* event)
+{
+    EventMouse* e = dynamic_cast<EventMouse*>(event);
+    if (e)
+    {
+        Vec2 endPos = Vec2(e->getCursorX(), e->getCursorY());
+
+        float distance = startPos.distance(endPos);
+
+        log("Mouse button released at (%.2f, %.2f). Distance moved: %.2f", endPos.x, endPos.y, distance);
+    }
+}
 
 
