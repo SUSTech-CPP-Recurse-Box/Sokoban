@@ -2,12 +2,14 @@
 #define _CONTROLER_H_
 #include "cocos2d.h"
 #include "ResBox.h"
+#include "Panel.h"
 #include <vector>
 #include "../GameFrame/GameScene.h"
 USING_NS_CC;
 using pii = std::pair<int, int>;
 class controler {
 public:
+	int lid;
 	bool suc;
 	ResBox* big;
 	ResBox* player;
@@ -24,24 +26,34 @@ public:
 		player = nullptr;
 	};
 	~controler() {};
-	void init() {
+	void init(int lid) {
+		this->lid = lid;
+		Panel* panel = Panel::getInstance();
+		panel->levelInit(lid);
 		suc= false;
 		big = nullptr;
 		player = nullptr;
 		gs = nullptr;
 		boxes.clear();
 		boxeslist.clear();
-		big = new ResBox(1, {4,4});
-		boxeslist.push_back(big);
-		ResBox* b = new ResBox(1, { 2,2 });
-		boxeslist.push_back(b);
-		player = new ResBox(3, { 0,0 });
-		boxeslist.push_back(player);
-		big->setTarget({ 1,1 }, 1);
-		big->setTarget({ 2,1 }, 2);
-		big->addBox(player, { 2,3 }, true);
-		big->addBox(b, { 2,2}, true);
-		big->addBox(big, { 1,0 }, false);
+		//===============================
+		big = panel->boxes[0];
+		player = panel->player;
+		for (int i = 0; i < panel->boxes.size(); i++) {
+			boxeslist.push_back(panel->boxes[i]);
+		}
+		//====================
+		//big = new ResBox(1, {4,4});
+		//boxeslist.push_back(big);
+		////ResBox* b = new ResBox(1, { 2,2 });
+		//boxeslist.push_back(b);
+		//player = new ResBox(3, { 0,0 });
+		//boxeslist.push_back(player);
+		//big->setTarget({ 1,1 }, 1);
+		//big->setTarget({ 2,1 }, 2);
+		//big->addBox(player, { 2,3 }, true);
+		//big->addBox(b, { 2,2}, true);
+		//big->addBox(big, { 1,0 }, false);
 	}
 	void initPanel(Sprite* fa, double size,pii s,Color3B color,ResBox* rb) {
 		for (int i = 0; i < s.first; i++) {

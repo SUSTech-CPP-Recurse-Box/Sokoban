@@ -11,7 +11,8 @@ Scene* GameScene::scene(int lid)
 {
     Scene* scene = Scene::create();
     //todo:readfile
-    Panel::getInstance()->levelInit(1);
+    controler::get()->init(lid);
+    
     GameScene* GameScene = GameScene::create();
     scene->addChild(GameScene);
     return scene;
@@ -34,8 +35,8 @@ bool GameScene::init()
     backGround->setPosition(Vec2(winSize.width / 2, winSize.height / 2));
     log("x:%lf;y:%lf", winSize.width / 2, winSize.height / 2);
     addChild(backGround, 0);
-    controler::get()->init();
-    controler::get()->draw(this, 200);
+    
+    controler::get()->draw(this, 400);
     //====================================================================
     //auto defaultBox = BoxCollection::create(5, 5, this,winSize.height/2);
     //defaultBox->setPosition(Vec2(winSize.width / 2, winSize.height / 2));

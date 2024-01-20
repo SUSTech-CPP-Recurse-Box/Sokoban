@@ -114,11 +114,11 @@ bool Panel::levelInit(int id)
                         curBox->setTarget({ x,y }, 1);
                     }
                     else if (str == "P ") {
-                        smallBox = new ResBox(4, { x,y });
+                        smallBox = new ResBox(3, { x,y });
                         this->player = smallBox;
                     }
                     else if (str == "p ") {
-                        smallBox = new ResBox(4, { x,y });
+                        smallBox = new ResBox(3, { x,y });
                         this->targets.emplace_back(2, i, x, y);
                         this->player = smallBox;
                         curBox->setTarget({ x,y }, 2);

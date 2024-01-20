@@ -1,3 +1,5 @@
+#ifndef _PANEL_H_
+#define _PANEL_H_
 #include <vector>
 
 #include "ResBox.h"
@@ -13,7 +15,7 @@ public:
 };
 
 class Panel {
-private:
+public:
     static Panel* instance;
     std::vector<Target> targets;
     std::vector<ResBox*> boxes;
@@ -21,9 +23,9 @@ private:
     ResBox * player;
     Panel() {};
     ~Panel() {};
-public:
     static Panel* getInstance();
     bool levelInit(int id);
 
     friend std::string printCLI(Panel* panel);
 };
+#endif
