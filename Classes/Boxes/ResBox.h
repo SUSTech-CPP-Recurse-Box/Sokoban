@@ -76,7 +76,7 @@ public:
 				break;
 			}
 			if (son[next_x][next_y]->type==4) {
-				valid == 0;
+				valid = 0;
 				break;
 			}
 		mybox.push(son[next_x][next_y]);
