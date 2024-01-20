@@ -1,8 +1,9 @@
 #include "GameScene.h"
-#include "../Boxes/Box.h"
-#include "../Boxes/BoxCollection.h"
-#include "../MainMenu/SysMenuScene.h"
-#include "../Boxes/controler.h"
+#include "Boxes/Box.h"
+#include "Boxes/BoxCollection.h"
+#include "MainMenu/SysMenuScene.h"
+#include "Boxes/controler.h"
+#include "Boxes/Panel.h"
 #define DEFAULT_SPACE_SIZE 10
 
 
@@ -10,6 +11,7 @@ Scene* GameScene::scene(int lid)
 {
     Scene* scene = Scene::create();
     //todo:readfile
+    Panel::getInstance()->levelInit(1);
     GameScene* GameScene = GameScene::create();
     scene->addChild(GameScene);
     return scene;
@@ -75,7 +77,7 @@ bool GameScene::init()
     Menu* backMenu = Menu::create(backMain, nullptr);
     backMenu->setPosition(Vec2(winSize.width / 2, 48));
     addChild(backMenu, 1);
-
+    
     return true;
 }
 void GameScene::onKeyPressed(EventKeyboard::KeyCode keyCode, Event* event)

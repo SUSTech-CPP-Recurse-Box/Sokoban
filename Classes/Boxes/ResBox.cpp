@@ -1,7 +1,7 @@
 #include "ResBox.h"
 void ResBox::init() {
-	for (int i = 0; i < MAX_SIZE; i++) {
-		for (int j = 0; j < MAX_SIZE; j++) {
+	for (int i = 0; i < RESBOX_MAX_SIZE; i++) {
+		for (int j = 0; j < RESBOX_MAX_SIZE; j++) {
 			son[i][j] = nullptr;
 		}
 	}

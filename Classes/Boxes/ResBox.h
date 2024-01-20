@@ -5,16 +5,18 @@
 #include <vector>
 #include <unordered_map>
 #include <cmath>
-#define MAX_SIZE 10
-#define MAX_LEVEL 10
+constexpr int RESBOX_MAX_SIZE=15;
+constexpr int RESBOX_MAX_LEVEL=15;
+
 USING_NS_CC;
+
 using pii = std::pair<int, int>;
 class ResBox {
 public:
 	std::vector<pii> target_people;
 	std::vector<pii> target_box;
 	int type;//1有内部结构,2无内部结构,3player,4墙
-	ResBox* son[MAX_SIZE][MAX_SIZE];
+	ResBox* son[RESBOX_MAX_SIZE][RESBOX_MAX_SIZE];
 	ResBox* father;//真父亲指针
 	pii pos;//在真父亲内部所在的位置
 	pii size;//盒子大小,初始化
