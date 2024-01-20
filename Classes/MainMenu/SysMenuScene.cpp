@@ -24,6 +24,7 @@
 
 #include "LevelSelectLayer.h"
 #include "LoadLayer.h"
+#include "HelpLayer.h"
 
 #include "SysMenuScene.h"
 
@@ -83,15 +84,16 @@ bool SysMenuScene::init()
     //float y = origin.y + visibleSize.height / 2 + startItem->getContentSize().height / 2 + 10;
     //loadItem->setPosition(Vec2(x, y));
 
-    auto closeItem = MenuItemImage::create("MainMenu/exit.png", "MainMenu/exit.png",
+    auto helpItem = MenuItemImage::create("MainMenu/bubble.png", "MainMenu/bubble.png",
         [&](Ref* sender) {
-            Director::getInstance()->end();
+            Scene* scene = HelpLayer::scene();
+            Director::getInstance()->replaceScene(TransitionFade::create(0.2f, scene));
         });
 
     //closeItem->setPosition(Vec2(origin.x + visibleSize.width / 2, origin.y + closeItem->getContentSize().height / 2));
 
     // create menu, it's an autorelease object
-    auto menu = Menu::create(startItem, loadItem, closeItem, NULL);
+    auto menu = Menu::create(startItem, loadItem, helpItem, NULL);
     menu->alignItemsVertically();
     menu->setPosition(Vec2(visibleSize.width / 2, visibleSize.height / 2));
     this->addChild(menu, 1);

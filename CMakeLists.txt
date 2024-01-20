@@ -60,6 +60,7 @@ list(APPEND GAME_SOURCE
      Classes/MainMenu/LevelSelectLayer.cpp
      Classes/MainMenu/LoadLayer.cpp
      Classes/MainMenu/SysMenuScene.cpp
+     Classes/MainMenu/HelpLayer.cpp
      Classes/GameFrame/GameScene.cpp
      Classes/Boxes/Box.cpp
      Classes/Boxes/Player.cpp
@@ -76,6 +77,7 @@ list(APPEND GAME_HEADER
      Classes/AppDelegate.h
      Classes/MainMenu/LevelSelectLayer.h
      Classes/MainMenu/LoadLayer.h
+     Classes/MainMenu/HelpLayer.h
      Classes/MainMenu/SysMenuScene.h
      Classes/GameFrame/GameScene.h
      Classes/Boxes/Box.h

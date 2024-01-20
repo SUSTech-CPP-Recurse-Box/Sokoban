@@ -1,7 +1,7 @@
 #include "GameScene.h"
 #include "Boxes/Box.h"
 #include "Boxes/BoxCollection.h"
-#include "MainMenu/SysMenuScene.h"
+#include "MainMenu/LevelSelectLayer.h"
 #include "Boxes/controler.h"
 #include "Boxes/Panel.h"
 #include "Tools/SaveManager.h"
@@ -111,7 +111,7 @@ bool GameScene::init()
     back->setColor(Color3B(31, 45, 150));
     MenuItemLabel* backMain = MenuItemLabel::create(back,
         [&](Ref* sender) {
-            Scene* scene = SysMenuScene::create();
+            Scene* scene = LevelSelectLayer::scene();
             Director::getInstance()->replaceScene(TransitionFade::create(0.2f, scene));
         });
     Menu* backMenu = Menu::create(backMain, nullptr);
