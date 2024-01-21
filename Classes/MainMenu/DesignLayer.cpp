@@ -68,6 +68,7 @@ void DesignLayer::onLoad(Ref* pSender) {
     }
 }
 void DesignLayer::onMouseDown(EventMouse* event) {
+
     // 获取鼠标点击位置
     Vec2 targetPos = event->getLocationInView();
     targetPos = Director::getInstance()->convertToGL(targetPos);
@@ -85,9 +86,15 @@ void DesignLayer::onMouseDown(EventMouse* event) {
         }
     }
     if (minDistance < 30) {
-        DesignControler::get()->setChosen(nearestSprite);
-        CCLOG("My String: %s", nearestSprite->getName().c_str());
-        CCLOG("Found nearest sprite!");
+        //CCLOG("My String: %s", nearestSprite->getName().c_str());
+        //CCLOG("Found nearest sprite!");
+        if (event->getMouseButton() == EventMouse::MouseButton::BUTTON_LEFT) {
+            DesignControler::get()->setChosen(nearestSprite);
+            
+        }
+        else {
+            DesignControler::get()->displayBox(nearestSprite);
+        }
         return;
     }
     nearestSprite = nullptr;
@@ -101,8 +108,8 @@ void DesignLayer::onMouseDown(EventMouse* event) {
     }
     if (minDistance < 30) {
         DesignControler::get()->putBox(nearestSprite);
-        CCLOG("My String: %s", nearestSprite->getName().c_str());
-        CCLOG("Found nearest sprite!");
+        //CCLOG("My String: %s", nearestSprite->getName().c_str());
+        //CCLOG("Found nearest sprite!");
         return;
     }
     

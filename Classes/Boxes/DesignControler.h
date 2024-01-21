@@ -54,6 +54,7 @@ public:
     void setChosen(Sprite* s);
     void drawBox(dataset* dc);
     void putBox(Sprite* box);
+    void displayBox(Sprite* box);
     DesignControler();
 
     ~DesignControler();
