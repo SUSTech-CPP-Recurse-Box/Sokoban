@@ -32,6 +32,7 @@ public:
 
     void  GameScene::onMouseUp(Event* event);
 
+    ~GameScene() {}
 };
 
 #endif /* defined(__GAME_SCENE_H__) */

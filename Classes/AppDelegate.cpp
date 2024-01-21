@@ -132,7 +132,6 @@ void AppDelegate::applicationDidEnterBackground() {
 // this function will be called when the app is active again
 void AppDelegate::applicationWillEnterForeground() {
     Director::getInstance()->startAnimation();
-
 #if USE_AUDIO_ENGINE
     AudioEngine::resumeAll();
 #endif

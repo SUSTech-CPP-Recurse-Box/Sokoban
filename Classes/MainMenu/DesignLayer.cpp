@@ -22,7 +22,6 @@ bool DesignLayer::init()
     }
     auto listener = EventListenerMouse::create();
     listener->onMouseDown = CC_CALLBACK_1(DesignLayer::onMouseDown, this);
-    listener->onMouseMove = CC_CALLBACK_1(DesignLayer::onMouseMove, this);
     _eventDispatcher->addEventListenerWithSceneGraphPriority(listener, this);
 
     Size winSize = Director::getInstance()->getWinSize();
@@ -71,7 +70,7 @@ void DesignLayer::onMouseDown(EventMouse* event) {
     // 获取鼠标点击位置
     Vec2 targetPos = event->getLocationInView();
     targetPos = Director::getInstance()->convertToGL(targetPos);
-    targetPos.y = Director::getInstance()->getVisibleSize().height - targetPos.y;
+
     // 查找离目标位置最近的Sprite
     Sprite* nearestSprite = nullptr;
     float minDistance = FLT_MAX;
@@ -84,37 +83,11 @@ void DesignLayer::onMouseDown(EventMouse* event) {
             nearestSprite = sprite;
         }
     }
-    if (minDistance < 30) {
-        DesignControler::get()->setChosen(nearestSprite);
-        CCLOG("My String: %s", nearestSprite->getName().c_str());
+    CCLOG("My String: %s", nearestSprite->getName().c_str());
+
+    if (nearestSprite) {
+        // 在这里处理找到的最近Sprite，可以输出信息或执行其他逻辑
         CCLOG("Found nearest sprite!");
-        return;
-    }
-    nearestSprite = nullptr;
-    minDistance = FLT_MAX;
-    for (Sprite* sprite : DesignControler::get()->board) {
-        float distance = sprite->getPosition().distance(targetPos);
-        if (distance < minDistance) {
-            minDistance = distance;
-            nearestSprite = sprite;
-        }
-    }
-    if (minDistance < 30) {
-        DesignControler::get()->putBox(nearestSprite);
-        CCLOG("My String: %s", nearestSprite->getName().c_str());
-        CCLOG("Found nearest sprite!");
-        return;
-    }
-    
-}
-void DesignLayer::onMouseMove(EventMouse* event) {
-    // 获取鼠标当前位置
-    Vec2 mousePos = event->getLocationInView();
-    mousePos = Director::getInstance()->convertToGL(mousePos);
-    // 更新物体位置为鼠标位置
-    mousePos.y = Director::getInstance()->getVisibleSize().height - mousePos.y;
-    if (DesignControler::get()->chosen) {
-        DesignControler::get()->chosen->setPosition(mousePos);
     }
 }
 
