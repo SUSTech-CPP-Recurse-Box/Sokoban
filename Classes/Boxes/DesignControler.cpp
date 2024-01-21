@@ -9,6 +9,8 @@ void DesignControler::init(DesignLayer* dl) {
 	size = 5;
 	boxcnt = 0;
 	disp.clear();
+	data.clear();
+	board.clear();
 	chosen = nullptr;
 	this->dl = dl;
 	addDefault();
