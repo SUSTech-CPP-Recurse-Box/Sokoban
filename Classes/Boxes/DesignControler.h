@@ -45,6 +45,7 @@ public:
     Label* size_dis;
     Sprite* chosen;
     DesignLayer* dl;
+    //std::vector<bool>
     std::vector<Sprite*> board;
     std::vector<dataset*> data;
     std::vector<Sprite*> disp;

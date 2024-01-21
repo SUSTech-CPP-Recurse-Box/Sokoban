@@ -203,6 +203,9 @@ void DesignControler::putBox(Sprite* box) {
 		return;
 	}
 	data[this_box]->data1[box->getName()[0] - '0'][box->getName()[2] - '0'] = chosen->getName()[0];
+	if(chosen->getName()[0]==' ')
+		data[this_box]->data1[box->getName()[0] - '0'][box->getName()[2] - '0'] ='T';
+
 	data[this_box]->data2[box->getName()[0] - '0'][box->getName()[2] - '0'] = chosen->getName()[1];
 	chosen->removeFromParent();
 	chosen = nullptr;
