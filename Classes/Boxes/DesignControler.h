@@ -37,10 +37,12 @@ public:
 
 extern class DesignControler {
 public:
-    int size_x;
-    int size_y;
+    int size;
     int boxcnt;
     int this_box;
+    Sprite* l;
+    Sprite* r;
+    Label* size_dis;
     Sprite* chosen;
     DesignLayer* dl;
     std::vector<Sprite*> board;

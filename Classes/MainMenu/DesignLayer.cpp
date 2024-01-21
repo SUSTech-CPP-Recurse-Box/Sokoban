@@ -112,6 +112,18 @@ void DesignLayer::onMouseDown(EventMouse* event) {
         //CCLOG("Found nearest sprite!");
         return;
     }
+    if (DesignControler::get()->l->getPosition().distance(targetPos) < 30) {
+        if (DesignControler::get()->size > 1) {
+            DesignControler::get()->size--;
+            DesignControler::get()->size_dis->setString(std::to_string(DesignControler::get()->size));
+        }
+    }
+    else if (DesignControler::get()->r->getPosition().distance(targetPos) < 30) {
+        if (DesignControler::get()->size <9) {
+            DesignControler::get()->size++;
+            DesignControler::get()->size_dis->setString(std::to_string(DesignControler::get()->size));
+        }
+    }
     
 }
 void DesignLayer::onMouseMove(EventMouse* event) {

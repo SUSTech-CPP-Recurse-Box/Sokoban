@@ -6,14 +6,29 @@ DesignControler* DesignControler::get() {
 	return _instance;
 }
 void DesignControler::init(DesignLayer* dl) {
-	size_x = 3;
-	size_y = 3;
+	size = 5;
 	boxcnt = 0;
 	disp.clear();
 	chosen = nullptr;
 	this->dl = dl;
 	addDefault();
 	display();
+	auto boxsiz = Sprite::create("MainMenu/boxes/BOXSIZE.png");
+	boxsiz->setPosition(Vec2(DEFAULT_SIZE * 10, DEFAULT_SIZE * 34));
+	boxsiz->setContentSize(Size(100, 30));
+	dl->addChild(boxsiz);
+	l=Sprite::create("MainMenu/boxes/min.png");
+	l->setPosition(Vec2(DEFAULT_SIZE * 15, DEFAULT_SIZE * 34));
+	l->setContentSize(Size(40, 40));
+	dl->addChild(l);
+	r = Sprite::create("MainMenu/boxes/plus.png");
+	r->setPosition(Vec2(DEFAULT_SIZE * 18, DEFAULT_SIZE * 34));
+	r->setContentSize(Size(35,35));
+	dl->addChild(r);
+	size_dis=Label::createWithTTF(std::to_string(size), "fonts/arial.ttf", 20);
+	size_dis->setPosition(Vec2(DEFAULT_SIZE * 17-10, DEFAULT_SIZE * 34));
+	size_dis->setColor(Color3B(255,255,255));
+	dl->addChild(size_dis);
 }
 void DesignControler::addDefault() {
 	Sprite* add = Sprite::create("MainMenu/boxes/add.png");
@@ -53,7 +68,7 @@ void DesignControler::setChosen(Sprite* s) {
 	if (s->getName() == "-1") {
 		log("-1");
 		Sprite* s = Sprite::create("MainMenu/boxes/box_i.png");
-		data.push_back(new dataset(boxcnt, size_x, size_y));
+		data.push_back(new dataset(boxcnt, size, size));
 		auto label = Label::createWithTTF(std::to_string(boxcnt), "fonts/arial.ttf", 40);
 		label->setPosition(Vec2(30, 30));
 		label->setColor(Color3B(50, 50, 50));
@@ -65,6 +80,7 @@ void DesignControler::setChosen(Sprite* s) {
 		dl->addChild(s);
 		display();
 		drawBox(data[0]);
+		
 		return;
 	}
 
