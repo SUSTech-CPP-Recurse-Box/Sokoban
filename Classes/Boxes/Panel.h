@@ -3,6 +3,7 @@
 #include <vector>
 
 #include "ResBox.h"
+
 using pii = std::pair<int, int>;
 
 class Target {

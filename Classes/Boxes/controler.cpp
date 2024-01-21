@@ -1,5 +1,5 @@
 #include "controler.h"
-#include "AudioEngine.h"
+
 controler* controler::_instance = new controler();
 
 controler* controler::get() {
@@ -211,14 +211,6 @@ bool controler::success() {
             winSize.height / 2));
 
         gs->addChild(levelTitle);
-
-        // 停止并释放背景音乐
-        //cocos2d::AudioEngine::stopAll();
-        // 预加载背景音乐
-        AudioEngine::preload("Music/success.mp3");
-
-        // 播放背景音乐，-1 表示无限循环
-        int bgmId = AudioEngine::play2d("Music/success.mp3", false);
         return true;
     }
     return false;

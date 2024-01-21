@@ -1,4 +1,5 @@
 #include "Panel.h"
+
 #include "json/rapidjson.h"
 #include "json/document.h"
 

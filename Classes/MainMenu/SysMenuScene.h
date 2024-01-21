@@ -26,7 +26,7 @@
 #define __SYSMENU_SCENE_H__
 
 #include "cocos2d.h"
-#include "AudioEngine.h"
+
 class SysMenuScene : public cocos2d::Scene
 {
 public:
@@ -36,10 +36,6 @@ public:
 
     // implement the "static create()" method manually
     CREATE_FUNC(SysMenuScene);
-
-    SysMenuScene::~SysMenuScene() {
-
-    }
 };
 
 #endif // __HELLOWORLD_SCENE_H__

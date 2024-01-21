@@ -15,6 +15,7 @@ public:
 	virtual bool init();
 	CREATE_FUNC(DesignLayer);
 	void onMouseDown(EventMouse* event);
+	void onMouseMove(EventMouse* event);
 
 };
 

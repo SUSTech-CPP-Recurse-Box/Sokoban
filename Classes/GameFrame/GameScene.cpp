@@ -3,7 +3,7 @@
 #include "Boxes/controler.h"
 #include "Boxes/Panel.h"
 #include "Tools/SaveManager.h"
-#include "AudioEngine.h"
+
 #define DEFAULT_SPACE_SIZE 10
 
 
@@ -119,10 +119,6 @@ bool GameScene::init()
     if (info) {
         controler::get()->reload(info->actions);
     }
-
-
-
-
     return true;
 }
 void GameScene::onKeyPressed(EventKeyboard::KeyCode keyCode, Event* event)
@@ -131,43 +127,25 @@ void GameScene::onKeyPressed(EventKeyboard::KeyCode keyCode, Event* event)
 }
 //todo: 移动函数入口在这里
 void GameScene::onKeyReleased(EventKeyboard::KeyCode keyCode, Event* event)
-{    
-
+{
     log("Key with keycode %d released", keyCode);
-
     switch (keyCode) {
     case EventKeyboard::KeyCode::KEY_W: {
-        AudioEngine::preload("Music/move.mp3");
-
-        // 播放背景音乐，-1 表示无限循环
-        int bgmId = AudioEngine::play2d("Music/move.mp3", false);
         controler::get()->move({ 0, 1 });
         log("go up");
         break;
     }
     case EventKeyboard::KeyCode::KEY_S: {
-        AudioEngine::preload("Music/move.mp3");
-
-        // 播放背景音乐，-1 表示无限循环
-        int bgmId = AudioEngine::play2d("Music/move.mp3", false);
         controler::get()->move({ 0, -1 });
         log("go down");
         break;
     }
     case EventKeyboard::KeyCode::KEY_A: {
-        AudioEngine::preload("Music/move.mp3");
-
-        // 播放背景音乐，-1 表示无限循环
-        int bgmId = AudioEngine::play2d("Music/move.mp3", false);
         controler::get()->move({ -1,0 });
         log("go left");
         break;
     }
     case EventKeyboard::KeyCode::KEY_D: {
-        AudioEngine::preload("Music/move.mp3");
-
-        // 播放背景音乐，-1 表示无限循环
-        int bgmId = AudioEngine::play2d("Music/move.mp3", false);
         controler::get()->move({ 1, 0 });
         log("go right");
         break;
@@ -194,10 +172,6 @@ void GameScene::onMouseScroll(Event* event)
 }
 
 void GameScene::onUndo(Ref* pSender) {
-    AudioEngine::preload("Music/move.mp3");
-
-    // 播放背景音乐，-1 表示无限循环
-    int bgmId = AudioEngine::play2d("Music/move.mp3", false);
     int lid = controler::get()->lid;
     std::vector<pii> steps = controler::get()->mv;
 
