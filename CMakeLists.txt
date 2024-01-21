@@ -61,10 +61,12 @@ list(APPEND GAME_SOURCE
      Classes/MainMenu/LoadLayer.cpp
      Classes/MainMenu/SysMenuScene.cpp
      Classes/MainMenu/HelpLayer.cpp
+     Classes/MainMenu/DesignLayer.cpp
      Classes/GameFrame/GameScene.cpp
      Classes/Boxes/ResBox.cpp
      Classes/Boxes/Panel.cpp
      Classes/Boxes/controler.cpp
+     Classes/Boxes/DesignControler.cpp
      Classes/Tools/MyColor.cpp
      Classes/Tools/SaveManager.cpp
      )
@@ -74,10 +76,12 @@ list(APPEND GAME_HEADER
      Classes/MainMenu/LoadLayer.h
      Classes/MainMenu/HelpLayer.h
      Classes/MainMenu/SysMenuScene.h
+     Classes/MainMenu/DesignLayer.h
      Classes/GameFrame/GameScene.h
      Classes/Boxes/ResBox.h
      Classes/Boxes/Panel.h
      Classes/Boxes/controler.h
+     Classes/Boxes/DesignControler.h
      Classes/Tools/MyColor.h
      Classes/Tools/SaveManager.h
      )
