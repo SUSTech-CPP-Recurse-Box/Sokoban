@@ -24,22 +24,8 @@ bool HelpLayer::init()
     backGround->setPosition(Vec2(winSize.width / 2, winSize.height / 2));
     addChild(backGround, 0);
 
-    auto helpTitleLabel = Label::createWithTTF("Help", "fonts/Marker Felt.ttf", 48);
-    helpTitleLabel->setPosition(Vec2(winSize.width / 2,
-        winSize.height - helpTitleLabel->getContentSize().height));
-
-    this->addChild(helpTitleLabel, 1);
-
-
     MenuItemFont::setFontSize(20);
     MenuItemFont::setFontName("Arial");
-
-
-    auto title1 = MenuItemFont::create("Sound");
-    title1->setFontSize(26);
-    title1->setFontName("Arial");
-    title1->setEnabled(false);
-    title1->setColor(Color3B(31, 45, 150));
 
     std::string path = "MainMenu/help.png";
     auto helpItem = MenuItemImage::create(path, path);

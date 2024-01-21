@@ -72,15 +72,11 @@ bool GameScene::init()
     _eventDispatcher->addEventListenerWithSceneGraphPriority(mouseListener, this);
 
 
-
-
-
-    auto levelTitle = Label::createWithTTF("Level", "fonts/Marker Felt.ttf", 48);
+    auto levelTitle = Label::createWithTTF("Sokoban~", "fonts/Marker Felt.ttf", 48);
     levelTitle->setPosition(Vec2(winSize.width / 2,
         winSize.height - levelTitle->getContentSize().height));
 
     this->addChild(levelTitle, 1);
-
 
     MenuItemFont::setFontSize(20);
     MenuItemFont::setFontName("Arial");
