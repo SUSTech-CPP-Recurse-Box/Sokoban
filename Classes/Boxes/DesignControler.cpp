@@ -17,6 +17,10 @@ void DesignControler::init(DesignLayer* dl) {
 	boxsiz->setPosition(Vec2(DEFAULT_SIZE * 10, DEFAULT_SIZE * 34));
 	boxsiz->setContentSize(Size(100, 30));
 	dl->addChild(boxsiz);
+	auto asas = Sprite::create("MainMenu/boxes/dis_create.png");
+	asas->setPosition(Vec2(DEFAULT_SIZE * 50, DEFAULT_SIZE * 24));
+	asas->setContentSize(Size(400, 60));
+	dl->addChild(asas);
 	l=Sprite::create("MainMenu/boxes/min.png");
 	l->setPosition(Vec2(DEFAULT_SIZE * 15, DEFAULT_SIZE * 34));
 	l->setContentSize(Size(40, 40));
@@ -79,7 +83,7 @@ void DesignControler::setChosen(Sprite* s) {
 		disp.push_back(s);
 		dl->addChild(s);
 		display();
-		drawBox(data[0]);
+		drawBox(data[data.size()-1]);
 		
 		return;
 	}
