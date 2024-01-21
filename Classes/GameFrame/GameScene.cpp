@@ -1,6 +1,4 @@
 #include "GameScene.h"
-#include "Boxes/Box.h"
-#include "Boxes/BoxCollection.h"
 #include "MainMenu/LevelSelectLayer.h"
 #include "Boxes/controler.h"
 #include "Boxes/Panel.h"
