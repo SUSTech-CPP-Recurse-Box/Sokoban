@@ -68,28 +68,19 @@ bool SysMenuScene::init()
             Director::getInstance()->replaceScene(TransitionFade::create(0.2f, scene));
         });
 
-
-    //float x = origin.x + visibleSize.width / 2;
-    //float y = origin.y + visibleSize.height / 2 + startItem->getContentSize().height / 2 + 10;
-    //startItem->setPosition(Vec2(x, y));
-
     auto loadItem = MenuItemImage::create(
         "MainMenu/resume.png", "MainMenu/resume.png",
         [&](Ref* sender) {
             Scene* scene = LoadLayer::scene();
             Director::getInstance()->replaceScene(TransitionFade::create(0.2f, scene));
         });
+
     auto designItem = MenuItemImage::create(
-        "MainMenu/resume.png", "MainMenu/resume.png",
+        "MainMenu/create_tool.png", "MainMenu/create_tool.png",
         [&](Ref* sender) {
             Scene* scene = DesignLayer::scene();
             Director::getInstance()->replaceScene(TransitionFade::create(0.2f, scene));
         });
-
-
-    //float x = origin.x + visibleSize.width / 2;
-    //float y = origin.y + visibleSize.height / 2 + startItem->getContentSize().height / 2 + 10;
-    //loadItem->setPosition(Vec2(x, y));
 
     auto helpItem = MenuItemImage::create("MainMenu/bubble.png", "MainMenu/bubble.png",
         [&](Ref* sender) {
@@ -100,8 +91,8 @@ bool SysMenuScene::init()
     //closeItem->setPosition(Vec2(origin.x + visibleSize.width / 2, origin.y + closeItem->getContentSize().height / 2));
 
     // create menu, it's an autorelease object
-    auto menu = Menu::create(startItem, loadItem, designItem, helpItem, NULL);
-    menu->alignItemsVertically();
+    auto menu = Menu::create(startItem, loadItem, helpItem, designItem, NULL);
+    menu->alignItemsInColumns(1, 1, 2);
     menu->setPosition(Vec2(visibleSize.width / 2, visibleSize.height / 2));
     this->addChild(menu, 1);
 

@@ -13,9 +13,7 @@ Scene* GameScene::scene(int lid, bool saved)
     //todo:readfile
 
     controler::get()->init(lid);
-    if (saved) {
-        controler::get()->needLoad = true;
-    }
+    controler::get()->needLoad = saved;
 
     GameScene* GameScene = GameScene::create();
     scene->addChild(GameScene);
@@ -73,12 +71,12 @@ bool GameScene::init()
     auto levelTitle = Label::createWithTTF("Sokoban~", "fonts/Marker Felt.ttf", 48);
     levelTitle->setPosition(Vec2(winSize.width / 2,
         winSize.height - levelTitle->getContentSize().height));
-
     this->addChild(levelTitle, 1);
 
     MenuItemFont::setFontSize(20);
     MenuItemFont::setFontName("Arial");
 
+    Vector<MenuItem*> optItems;
     Label* saveLabel = Label::createWithTTF("Save", "fonts/Marker Felt.ttf", 48);
     saveLabel->setColor(Color3B(31, 45, 150));
     MenuItemLabel* saveItem = MenuItemLabel::create(saveLabel,
@@ -86,20 +84,21 @@ bool GameScene::init()
             controler* con = controler::get();
             SaveManager::getInstance()->saveGame(con->lid, con->mv);
         });
-
-    Menu* saveMenu = Menu::create(saveItem, nullptr);
-    saveMenu->setPosition(Vec2(winSize.width / 2 - 300, 48));
-    addChild(saveMenu, 1);
+    optItems.pushBack(saveItem);
 
     Label* undoLabel = Label::createWithTTF("Undo", "fonts/Marker Felt.ttf", 48);
     undoLabel->setColor(Color3B(31, 45, 150));
     MenuItemLabel* undoItem = MenuItemLabel::create(undoLabel,
-        CC_CALLBACK_1(GameScene::onUndo,
-            this, controler::get()->lid, controler::get()->mv)
+        CC_CALLBACK_1(GameScene::onUndo, this)
     );
-    Menu* undoMenu = Menu::create(undoItem, nullptr);
-    undoMenu->setPosition(Vec2(winSize.width / 2, 48));
-    addChild(undoMenu, 1);
+    optItems.pushBack(undoItem);
+
+    Label* restartLabel = Label::createWithTTF("Restart", "fonts/Marker Felt.ttf", 48);
+    restartLabel->setColor(Color3B(31, 45, 150));
+    MenuItemLabel* restartItem = MenuItemLabel::create(restartLabel,
+        CC_CALLBACK_1(GameScene::onRestart, this)
+    );
+    optItems.pushBack(restartItem);
 
     Label* back = Label::createWithTTF("Go back", "fonts/Marker Felt.ttf", 48);
     back->setColor(Color3B(31, 45, 150));
@@ -108,9 +107,13 @@ bool GameScene::init()
             Scene* scene = LevelSelectLayer::scene();
             Director::getInstance()->replaceScene(TransitionFade::create(0.2f, scene));
         });
-    Menu* backMenu = Menu::create(backMain, nullptr);
-    backMenu->setPosition(Vec2(winSize.width / 2 + 300, 48));
-    addChild(backMenu, 1);
+    optItems.pushBack(backMain);
+
+    Menu* optMenu = Menu::createWithArray(optItems);
+    optMenu->alignItemsHorizontallyWithPadding(100);
+    optMenu->setPosition(Vec2(winSize.width / 2, 48));
+    this->addChild(optMenu, 1);
+
 
     SaveInfo* info = SaveManager::getInstance()->info;
     if (info) {
@@ -126,21 +129,35 @@ void GameScene::onKeyPressed(EventKeyboard::KeyCode keyCode, Event* event)
 void GameScene::onKeyReleased(EventKeyboard::KeyCode keyCode, Event* event)
 {
     log("Key with keycode %d released", keyCode);
-    if (keyCode == EventKeyboard::KeyCode::KEY_W) {
+    switch (keyCode) {
+    case EventKeyboard::KeyCode::KEY_W: {
         controler::get()->move({ 0, 1 });
         log("go up");
+        break;
     }
-    else if (keyCode == EventKeyboard::KeyCode::KEY_S) {
+    case EventKeyboard::KeyCode::KEY_S: {
         controler::get()->move({ 0, -1 });
         log("go down");
+        break;
     }
-    else if (keyCode == EventKeyboard::KeyCode::KEY_A) {
+    case EventKeyboard::KeyCode::KEY_A: {
         controler::get()->move({ -1,0 });
         log("go left");
+        break;
     }
-    else if (keyCode == EventKeyboard::KeyCode::KEY_D) {
+    case EventKeyboard::KeyCode::KEY_D: {
         controler::get()->move({ 1, 0 });
         log("go right");
+        break;
+    }
+    case EventKeyboard::KeyCode::KEY_R: {
+        this->onRestart(this);
+        break;
+    }
+    case EventKeyboard::KeyCode::KEY_BACKSPACE: {
+        this->onUndo(this);
+        break;
+    }
     }
 }
 void GameScene::onMouseScroll(Event* event)
@@ -153,12 +170,24 @@ void GameScene::onMouseScroll(Event* event)
         log("Mouse scrolled: %f", deltaY);
     }
 }
-void GameScene::onUndo(Ref* pSender, int lid, std::vector<pii> steps) {
+
+void GameScene::onUndo(Ref* pSender) {
+    int lid = controler::get()->lid;
+    std::vector<pii> steps = controler::get()->mv;
+
     if (SaveManager::getInstance()->info == nullptr) {
         SaveManager::getInstance()->info = new SaveInfo(lid, steps, "");
     }
 
     Scene* scene = GameScene::scene(SaveManager::getInstance()->info->level_id, true);
+    Director::getInstance()->replaceScene(TransitionFade::create(0, scene));
+}
+
+
+void GameScene::onRestart(Ref* pSender) {
+    int lid = controler::get()->lid;
+
+    Scene* scene = GameScene::scene(lid, false);
     Director::getInstance()->replaceScene(TransitionFade::create(0, scene));
 }
 

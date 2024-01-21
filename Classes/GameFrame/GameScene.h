@@ -24,7 +24,9 @@ public:
 
     void GameScene::onMouseScroll(Event* event);
 
-    void GameScene::onUndo(Ref* pSender, int lid, std::vector<pii>);
+    void GameScene::onUndo(Ref* pSender);
+
+    void GameScene::onRestart(Ref* pSender);
 
     void GameScene::onMouseDown(Event* event);
 
