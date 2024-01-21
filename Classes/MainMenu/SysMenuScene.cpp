@@ -26,8 +26,9 @@
 #include "LoadLayer.h"
 #include "HelpLayer.h"
 #include "DesignLayer.h"
-
+#include "AudioEngine.h"
 #include "SysMenuScene.h"
+#include "AudioEngine.h"
 
 USING_NS_CC;
 
@@ -64,13 +65,22 @@ bool SysMenuScene::init()
     auto startItem = MenuItemImage::create(
         "MainMenu/start.png", "MainMenu/start.png",
         [&](Ref* sender) {
+            AudioEngine::preload("Music/menu.mp3");
+
+            // 播放背景音乐，-1 表示无限循环
+            int bgmId = AudioEngine::play2d("Music/menu.mp3", false);
             Scene* scene = LevelSelectLayer::scene();
             Director::getInstance()->replaceScene(TransitionFade::create(0.2f, scene));
+
         });
 
     auto loadItem = MenuItemImage::create(
         "MainMenu/resume.png", "MainMenu/resume.png",
         [&](Ref* sender) {
+            AudioEngine::preload("Music/menu.mp3");
+
+            // 播放背景音乐，-1 表示无限循环
+            int bgmId = AudioEngine::play2d("Music/menu.mp3", false);
             Scene* scene = LoadLayer::scene();
             Director::getInstance()->replaceScene(TransitionFade::create(0.2f, scene));
         });
@@ -78,12 +88,20 @@ bool SysMenuScene::init()
     auto designItem = MenuItemImage::create(
         "MainMenu/create_tool.png", "MainMenu/create_tool.png",
         [&](Ref* sender) {
+            AudioEngine::preload("Music/menu.mp3");
+
+            // 播放背景音乐，-1 表示无限循环
+            int bgmId = AudioEngine::play2d("Music/menu.mp3", false);
             Scene* scene = DesignLayer::scene();
             Director::getInstance()->replaceScene(TransitionFade::create(0.2f, scene));
         });
 
     auto helpItem = MenuItemImage::create("MainMenu/bubble.png", "MainMenu/bubble.png",
         [&](Ref* sender) {
+            AudioEngine::preload("Music/menu.mp3");
+
+            // 播放背景音乐，-1 表示无限循环
+            int bgmId = AudioEngine::play2d("Music/menu.mp3", false);
             Scene* scene = HelpLayer::scene();
             Director::getInstance()->replaceScene(TransitionFade::create(0.2f, scene));
         });
@@ -128,5 +146,15 @@ bool SysMenuScene::init()
         // add the sprite as a child to this layer
         this->addChild(sprite, 0);
     }
+
+    // 停止并释放背景音乐
+    cocos2d::AudioEngine::stopAll();
+
+    // 预加载背景音乐
+    AudioEngine::preload("Music/BGM.mp3");
+
+    // 播放背景音乐，-1 表示无限循环
+    int bgmId = AudioEngine::play2d("Music/BGM.mp3", true);
+
     return true;
 }
