@@ -1,7 +1,7 @@
 #include "DesignLayer.h"
 #include "SysMenuScene.h"
 #include "GameFrame/GameScene.h"
-#include "Tools/SaveManager.h"
+#include "Tools/UserLevelManager.h"
 #include "Boxes/DesignControler.h"
 
 using namespace std;
@@ -43,7 +43,15 @@ bool DesignLayer::init()
     MenuItemFont::setFontName("Arial");
     DesignControler::get()->init(this);
 
-
+    Vector<MenuItem*> designOptItems;
+    Label* saveLabel = Label::createWithTTF("Save", "fonts/Marker Felt.ttf", 48);
+    saveLabel->setColor(Color3B(31, 45, 150));
+    MenuItemLabel* saveItem = MenuItemLabel::create(saveLabel,
+        [&](Ref* sender) {
+            std::vector<dataset*> data=DesignControler::get()->data;
+            UserLevelManager::getInstance()->saveLevel(data);
+        });
+    designOptItems.pushBack(saveItem);
 
     Label* back = Label::createWithTTF("Go back", "fonts/Marker Felt.ttf", 48);
     back->setColor(Color3B(31, 45, 150));
@@ -52,9 +60,12 @@ bool DesignLayer::init()
             Scene* scene = SysMenuScene::create();
             Director::getInstance()->replaceScene(TransitionFade::create(0.2f, scene));
         });
-    Menu* backMenu = Menu::create(backMain, nullptr);
-    backMenu->setPosition(Vec2(winSize.width / 2, 48));
-    addChild(backMenu, 1);
+    designOptItems.pushBack(backMain);
+
+    Menu* designOptMenu = Menu::createWithArray(designOptItems);
+    designOptMenu->alignItemsHorizontallyWithPadding(50);
+    designOptMenu->setPosition(Vec2(winSize.width / 2, 48));
+    addChild(designOptMenu, 1);
 
 
     return true;
@@ -90,7 +101,7 @@ void DesignLayer::onMouseDown(EventMouse* event) {
         //CCLOG("Found nearest sprite!");
         if (event->getMouseButton() == EventMouse::MouseButton::BUTTON_LEFT) {
             DesignControler::get()->setChosen(nearestSprite);
-            
+
         }
         else {
             DesignControler::get()->displayBox(nearestSprite);
@@ -119,12 +130,12 @@ void DesignLayer::onMouseDown(EventMouse* event) {
         }
     }
     else if (DesignControler::get()->r->getPosition().distance(targetPos) < 30) {
-        if (DesignControler::get()->size <9) {
+        if (DesignControler::get()->size < 9) {
             DesignControler::get()->size++;
             DesignControler::get()->size_dis->setString(std::to_string(DesignControler::get()->size));
         }
     }
-    
+
 }
 void DesignLayer::onMouseMove(EventMouse* event) {
     // 获取鼠标当前位置

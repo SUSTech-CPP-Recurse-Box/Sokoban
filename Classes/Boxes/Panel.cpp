@@ -25,6 +25,9 @@ bool Panel::levelInit(int id)
     rapidjson::Document readdoc;
     // getFileData 如果不指定，读取根目录是 Resource 文件夹
     std::string fileName = "level/level" + std::to_string(id) + ".json";
+    if (id == 100) {
+        fileName = "level/user.json";
+    }
     std::string levelStr = FileUtils::getInstance()->getStringFromFile(fileName);
 
     if (levelStr == "") {

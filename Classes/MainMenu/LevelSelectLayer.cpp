@@ -47,16 +47,18 @@ bool LevelSelectLayer::init()
     for (size_t i = 1; i <= 10; ++i)
     {
         std::string path = "MainMenu/levels/";
-        path += std::to_string(i) +".png";
-        //path += "1.png";
-        auto levelItem = MenuItemImage::create(
-            path,
-            path,
+        path += std::to_string(i) + ".png";
+        auto levelItem = MenuItemImage::create(path, path,
             CC_CALLBACK_1(LevelSelectLayer::onLevelSelect, this, i));
         levels.pushBack(levelItem);
     }
+    std::string user_level_path = "MainMenu/levels/user_level.png";
+    auto userLevelItem = MenuItemImage::create(user_level_path, user_level_path,
+        CC_CALLBACK_1(LevelSelectLayer::onLevelSelect, this, 100));
+    levels.pushBack(userLevelItem);
+
     Menu* levelsLayerMenu = Menu::createWithArray(levels);
-    levelsLayerMenu->alignItemsInColumns(3, 3, 4);
+    levelsLayerMenu->alignItemsInColumns(4, 4, 3);
     levelsLayerMenu->setPosition(Vec2(winSize.width / 2, winSize.height / 2));
     addChild(levelsLayerMenu, 1);
 

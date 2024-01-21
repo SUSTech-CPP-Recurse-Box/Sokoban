@@ -69,6 +69,7 @@ list(APPEND GAME_SOURCE
      Classes/Boxes/DesignControler.cpp
      Classes/Tools/MyColor.cpp
      Classes/Tools/SaveManager.cpp
+     Classes/Tools/UserLevelManager.cpp
      )
 list(APPEND GAME_HEADER
      Classes/AppDelegate.h
@@ -84,6 +85,7 @@ list(APPEND GAME_HEADER
      Classes/Boxes/DesignControler.h
      Classes/Tools/MyColor.h
      Classes/Tools/SaveManager.h
+     Classes/Tools/UserLevelManager.h
      )
 
 if(ANDROID)
