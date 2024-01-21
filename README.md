@@ -1,5 +1,7 @@
 # Sokoban
-cocos2x+vs2019：
+cocos2dx 4.0 + Visual Studio：
+
+CN:
 
 安装方法：https://www.bilibili.com/video/BV1ho4y1S7s3
 
@@ -7,17 +9,7 @@ cocos2x+vs2019：
 
 讲解：https://www.bilibili.com/video/BV1bs4y1H7dD
 
-设计思路：
-
-初始化一个10*10的初始区域
-
-初始化每个棋盘大小
-
-将每个棋盘上的东西放上去
-
-棋盘-》BoxCollection
-
-每个棋盘中-1为空白，-2为栅栏，-3为棋子，n为内置的其他棋盘
+For detailed infomation,  please refer [requirement docs](docs/requirement.pdf).
 
 ### Well Come to Recurse Box!
 
@@ -26,7 +18,9 @@ cocos2x+vs2019：
 | W A S D     | move up, down, left, right |
 | Mouse wheel | zoom in / out              |
 
-Box Example:
+Level-function mapping: [here](Resources/level/)
+
+### Box Example:
 
 <img src="Resources/MainMenu/boxes/player.png" alt="player" style="zoom:25%;" /> Player
 <img src="Resources/MainMenu/boxes/traget_player.png" alt="traget_player" style="zoom:25%;" />Player Target
