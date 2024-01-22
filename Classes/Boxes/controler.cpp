@@ -226,6 +226,7 @@ bool controler::success() {
 }
 
 void controler::move(pii dir) {
+    gs->trymove(std::to_string(dir.first+1) + std::to_string(dir.second+1));
     if (!suc) {
         player->father->processObjects(player, player->father, player->father, dir, player->pos, 0, player, player->pos, { 1,1 }, nullptr, 0);
         //if (big != player->father) {

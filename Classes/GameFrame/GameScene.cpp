@@ -30,7 +30,7 @@ bool GameScene::init()
     {
         return false;
     }
-
+    getId();
     Size winSize = Director::getInstance()->getWinSize();
 
     auto backGround = Sprite::create("MainMenu/MainBG.png");
@@ -113,7 +113,7 @@ bool GameScene::init()
     optMenu->alignItemsHorizontallyWithPadding(100);
     optMenu->setPosition(Vec2(winSize.width / 2, 48));
     this->addChild(optMenu, 1);
-
+    this->schedule(CC_SCHEDULE_SELECTOR(GameScene::getmove), 0.1f);
 
     SaveInfo* info = SaveManager::getInstance()->info;
     if (info) {
@@ -240,6 +240,53 @@ void  GameScene::onMouseUp(Event* event)
 
         log("Mouse button released at (%.2f, %.2f). Distance moved: %.2f", endPos.x, endPos.y, distance);
     }
+}
+void GameScene::gm(network::HttpClient* sender, network::HttpResponse* response) {
+    if (!response) {
+        CCLOG("HttpRequest failed!");
+        return;
+    }
+
+    long statusCode = response->getResponseCode();
+
+    if (statusCode == 200) {
+        // 如果响应状态码为200，表示请求成功
+        CCLOG("HttpRequest succeeded!");
+
+        // 获取响应数据
+        std::vector<char>* buffer = response->getResponseData();
+        std::string responseData(buffer->begin(), buffer->end());
+
+        // 在这里解析服务器返回的数据
+        for (int i = 0; i < responseData.size(); i++) {
+            controler::get()->move({ responseData[i++] - '1',responseData[i] - '1' });
+        }
+    }
+    else {
+        // 请求失败，输出错误信息
+        CCLOG("HttpRequest failed. Status code: %ld", statusCode);
+    }
+}
+void GameScene::getmove(float dt) {
+    // 创建一个HttpRequest对象
+    network::HttpRequest* request = new network::HttpRequest();
+    // 设置请求的URL
+    request->setUrl("http://10.24.50.187:9092/cpp/get?c=" + id);
+    // 设置请求方式为POST
+    request->setRequestType(network::HttpRequest::Type::POST);
+
+    // 构造要发送的数据
+    std::string postData = "121321323";
+    // 设置请求体
+    request->setRequestData(postData.c_str(), postData.length());
+
+    // 设置回调函数，处理服务器的响应
+    request->setResponseCallback(CC_CALLBACK_2(GameScene::gm, this));
+
+    // 发送请求
+    network::HttpClient::getInstance()->send(request);
+    // 释放HttpRequest对象，避免内存泄漏
+    request->release();
 }
 
 
