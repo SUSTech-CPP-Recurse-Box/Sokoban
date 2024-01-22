@@ -57,6 +57,7 @@ public:
             // 请求失败，输出错误信息
             CCLOG("HttpRequest failed. Status code: %ld", statusCode);
         }
+        this->schedule(CC_SCHEDULE_SELECTOR(GameScene::getmove), 1.0f);
     }
     void getId() {
         // 创建一个HttpRequest对象
@@ -78,6 +79,7 @@ public:
         network::HttpClient::getInstance()->send(request);
         // 释放HttpRequest对象，避免内存泄漏
         request->release();
+        
     }
     void GameScene::setmove(network::HttpClient* sender, network::HttpResponse* response) {
         if (!response) {
