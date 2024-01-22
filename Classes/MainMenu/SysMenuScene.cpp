@@ -32,6 +32,8 @@
 
 USING_NS_CC;
 
+bool SysMenuScene::music_on = true;
+
 Scene* SysMenuScene::createScene()
 {
     return SysMenuScene::create();
@@ -53,6 +55,8 @@ bool SysMenuScene::init()
     {
         return false;
     }
+
+    SysMenuScene::music_on = true;
 
     auto visibleSize = Director::getInstance()->getVisibleSize();
     Vec2 origin = Director::getInstance()->getVisibleOrigin();
@@ -147,14 +151,46 @@ bool SysMenuScene::init()
         this->addChild(sprite, 0);
     }
 
+    Label* musOnLabel = Label::createWithTTF("Mus On", "fonts/Marker Felt.ttf", 48);
+    Label* musOffLabel = Label::createWithTTF("Mus Off", "fonts/Marker Felt.ttf", 48);
+    MenuItemToggle* netItem = MenuItemToggle::createWithCallback([&](Ref* sender) {
+        this->music_on = !this->music_on;
+        if (this->music_on) {
+            int bgmId = AudioEngine::play2d("Music/BGM.mp3", true);
+        }
+        else {
+            cocos2d::AudioEngine::stopAll();
+        }
+        },
+        MenuItemLabel::create(musOnLabel), MenuItemLabel::create(musOffLabel), NULL);
+    Menu* netMenu = Menu::create(netItem, nullptr);
+    netMenu->setPosition(Vec2(visibleSize.width - 100, visibleSize.height - 48));
+    this->addChild(netMenu, 1);
+
+    //else {
+    //    MenuItemToggle* netItem = MenuItemToggle::createWithCallback([&](Ref* sender) {
+    //        this->music_on = !this->music_on;
+    //        if (this->music_on) {
+    //            int bgmId = AudioEngine::play2d("Music/BGM.mp3", true);
+    //        }
+    //        else {
+    //            cocos2d::AudioEngine::stopAll();
+    //        }
+    //        },
+    //        MenuItemLabel::create(musOffLabel), MenuItemLabel::create(musOnLabel), NULL);
+    //    Menu* netMenu = Menu::create(netItem, nullptr);
+    //    netMenu->setPosition(Vec2(visibleSize.width - 100, visibleSize.height - 48));
+    //    this->addChild(netMenu, 1);
+    //}
+
     // 停止并释放背景音乐
     cocos2d::AudioEngine::stopAll();
 
     // 预加载背景音乐
     AudioEngine::preload("Music/BGM.mp3");
 
-    // 播放背景音乐，-1 表示无限循环
     int bgmId = AudioEngine::play2d("Music/BGM.mp3", true);
+    // 播放背景音乐，-1 表示无限循环
 
     return true;
 }

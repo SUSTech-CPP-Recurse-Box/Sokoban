@@ -34,6 +34,8 @@ public:
 
     virtual bool init();
 
+    static bool music_on;
+
     // implement the "static create()" method manually
     CREATE_FUNC(SysMenuScene);
 
