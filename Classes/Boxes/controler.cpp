@@ -226,6 +226,7 @@ bool controler::success() {
 }
 
 void controler::move(pii dir) {
+    gs->trymove(std::to_string(dir.first+1) + std::to_string(dir.second+1));
     if (!suc) {
         player->father->processObjects(player, player->father, player->father, dir, player->pos, 0, player, player->pos, { 1,1 }, nullptr, 0);
         //if (big != player->father) {
@@ -250,7 +251,31 @@ void controler::move(pii dir) {
         success();
     }
 }
+void controler::move1(pii dir) {
+    if (!suc) {
+        player->father->processObjects(player, player->father, player->father, dir, player->pos, 0, player, player->pos, { 1,1 }, nullptr, 0);
+        //if (big != player->father) {
+        big = player->father;
+        if (player->father->father) {
+            big = player->father->father;
+        }
+        //}
 
+        draw(gs, size);
+        mv.push_back(dir);
+        std::vector<pii> stepRec(mv);
+        if (SaveManager::getInstance()->info != nullptr) {
+            delete SaveManager::getInstance()->info;
+            SaveManager::getInstance()->info = nullptr;
+
+        }
+        SaveManager::getInstance()->info = new SaveInfo(this->lid, {}, "");
+        for (int i = 0; i < mv.size() - 1; ++i) {
+            SaveManager::getInstance()->info->actions.push_back(mv[i]);
+        };
+        success();
+    }
+}
 void controler::reload(std::vector<pii> step) {
     if (this->needLoad) {
         for (int i = 0; i < step.size(); i++) {

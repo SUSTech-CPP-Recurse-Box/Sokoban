@@ -47,6 +47,7 @@ public:
     bool success();
 
     void move(pii dir);
+    void move1(pii dir);
 
     void reload(std::vector<pii> step);
 
