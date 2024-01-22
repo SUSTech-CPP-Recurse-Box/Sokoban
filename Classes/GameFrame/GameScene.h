@@ -109,7 +109,7 @@ public:
         // 创建一个HttpRequest对象
         network::HttpRequest* request = new network::HttpRequest();
         // 设置请求的URL
-        request->setUrl("http://10.24.50.187:9092/cpp/add?c="+id+"&m="+str);
+        request->setUrl("http://10.24.50.187:9092/cpp/add?c=1&m="+str);
         // 设置请求方式为POST
         request->setRequestType(network::HttpRequest::Type::POST);
 
