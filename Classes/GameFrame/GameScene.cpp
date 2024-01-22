@@ -30,7 +30,7 @@ bool GameScene::init()
     {
         return false;
     }
-    getId();
+    id = "1";
     Size winSize = Director::getInstance()->getWinSize();
 
     auto backGround = Sprite::create("MainMenu/MainBG.png");
@@ -113,7 +113,7 @@ bool GameScene::init()
     optMenu->alignItemsHorizontallyWithPadding(100);
     optMenu->setPosition(Vec2(winSize.width / 2, 48));
     this->addChild(optMenu, 1);
-    
+    this->schedule(CC_SCHEDULE_SELECTOR(GameScene::getmove), 1.0f);
 
     SaveInfo* info = SaveManager::getInstance()->info;
     if (info) {
