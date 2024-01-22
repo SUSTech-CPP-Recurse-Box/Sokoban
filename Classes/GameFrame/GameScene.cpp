@@ -259,7 +259,7 @@ void GameScene::gm(network::HttpClient* sender, network::HttpResponse* response)
 
         // 在这里解析服务器返回的数据
         for (int i = 0; i < responseData.size(); i++) {
-            controler::get()->move({ responseData[i++] - '1',responseData[i] - '1' });
+            controler::get()->move1({ responseData[i++] - '1',responseData[i] - '1' });
         }
     }
     else {
