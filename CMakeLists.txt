@@ -25,7 +25,7 @@
 
 cmake_minimum_required(VERSION 3.6)
 
-set(APP_NAME SoCoBan)
+set(APP_NAME Sokoban)
 
 project(${APP_NAME})
 

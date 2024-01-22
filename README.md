@@ -23,21 +23,32 @@ Tutorial video of sample: https://www.bilibili.com/video/BV1bs4y1H7dD
 
 ### Well Come to Recurse Box!
 
-| Event       | Action                     |
-| ----------- | -------------------------- |
-| W A S D     | move up, down, left, right |
-| Mouse wheel | zoom in / out              |
-| R           | Restart                    |
-| Backspace ← | Undo one step              |
+We completed this project within almost 72 hours, so it was inevitable that there would be some imperfections. Think of this project as a mini Game Jam!
+
+#### Main Menu
+
+![main_frame](docs/img/main_frame.png)
+
+#### Help Page
+
+![help](docs/img/help.png)
+
+#### Level Select
+
+![level_select](docs/img/level_select.png)
 
 **Level-function mapping: [here](Resources/level/)**
 
-#### Box Example:
+#### Level Sample
 
-<img src="Resources/MainMenu/boxes/player.png" alt="player" style="zoom:25%;" /> Player
-<img src="Resources/MainMenu/boxes/traget_player.png" alt="traget_player" style="zoom:25%;" />Player Target
-<img src="Resources/MainMenu/boxes/default_box.png" alt="default_box" style="zoom:25%;" />Box
-<img src="Resources/MainMenu/boxes/target_box.png" alt="target_box" style="zoom:25%;" /> Box Target
-<img src="Resources/MainMenu/boxes/boundary.png" alt="boundary" style="zoom:25%;" />Boundary
-<img src="Resources/MainMenu/boxes/panel.png" alt="panel" style="zoom:25%;" />Floor
+![level_sample1](docs/img/level_sample1.png)
 
+![level_sample2](docs/img/level_sample2.png)
+
+#### Load Game Page
+
+![load](docs/img/load.png)
+
+#### Custom Design Game
+
+![design](docs/img/design.png)
